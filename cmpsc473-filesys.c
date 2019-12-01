@@ -777,7 +777,29 @@ int fileSetAttr( unsigned int fd, char *name, char *value, unsigned int name_siz
 		 unsigned int value_size, unsigned int flags )
 {
 	/* IMPLEMENT THIS */
+	// how does the file descriptor specify the file?
+	
+	fstat_t *fstat = fs->proc->fstat_table[fd];
+	file_t *file;
 
+	if ( fstat == NULL ) {
+		errorMessage("fileSeek: No file corresponds to fd");
+		return -1;
+	}
+
+	file = fstat->file;
+
+	if ( file == NULL ) {
+		errorMessage("fileSeek: No file corresponds to fstat");
+		return -1;
+	}
+
+	for (int i = 0; i < value_size; i++) {
+		file->name[i] = value[i];
+	}
+	
+	
+	
 	/* Error case: print on failed XATTR_CREATE */
 	errorMessage("fileSetAttr fail: already an entry for name - incompatible with flag XATTR_CREATE");
 

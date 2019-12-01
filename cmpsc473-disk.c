@@ -549,7 +549,9 @@ int diskSetAttr( unsigned int attr_block, char *name, char *value,
 		 unsigned int name_size, unsigned int value_size )
 {
 	/* IMPLEMENT THIS */
-	printf("Hello1");
+	
+	
+	
 	return 0;
 }
 
