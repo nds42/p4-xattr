@@ -794,7 +794,7 @@ int fileSetAttr( unsigned int fd, char *name, char *value, unsigned int name_siz
 		return -1;
 	}
 
-	for (int i = 0; i < value_size; i++) {
+	for(int i = 0; i < value_size; i++) {
 		file->name[i] = value[i];
 	}
 	
