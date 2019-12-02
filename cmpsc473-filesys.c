@@ -809,6 +809,13 @@ int fileSetAttr( unsigned int fd, char *name, char *value, unsigned int name_siz
 	return 0;
 }
 
+/*
+Huge memory chunk divided into blocks. A block is max 512 bytes. dblock_t is the first structure
+in every block. The free tells you the data type of the block. If it is free, then free = 0.
+If free is 1, then the type is ddirentry. If free is 2, then type is ddentry. If it is 4, then 
+it is a file data block. By computing the data end, we know the size. Next points to the address 
+of the next disk block.
+*/
 
 /**********************************************************************
 
@@ -831,14 +838,14 @@ int fileGetAttr( unsigned int fd, char *name, char *value, unsigned int name_siz
 	file_t *file;
 
 	if ( fstat == NULL ) {
-		errorMessage("fileSetAttr: No file corresponds to fd");
+		errorMessage("fileGetAttr: No file corresponds to fd");
 		return -1;
 	}
 
 	file = fstat->file;
 
 	if ( file == NULL ) {
-		errorMessage("fileSetAttr: No file corresponds to fstat");
+		errorMessage("fileGetAttr: No file corresponds to fstat");
 		return -1;
 	}
 
