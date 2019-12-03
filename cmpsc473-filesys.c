@@ -819,10 +819,7 @@ it is a file data block. By computing the data end, we know the size. Next point
 of the next disk block.
 data[0] in block 1 points to the hash table. 
 Maximum of 32 files in this project.
-block[0] in fcb_t is a pointer to the next file data block. 
-Logging/Journaling: On a disk write, write 'x' blocks, but only writing x - a blocks. Power failure.
-Write 10 KB into the disk for now. I will write 'x' blocks to the disk. If there is a power failure,
-this is what we will do. 
+block[0] in fcb_t is a pointer to the next file data block.
 Need a linked list if the extended attributes are larger than the block size. 
 */
 

@@ -100,3 +100,103 @@ article.venues=
 close: 0
 close: 1
 ***********  Done *************
+************ Running commands from file cmd1 on filesystem in file your_fs **********
+creat: name = super; mode = 1
+creat: name = duper; mode = 2
+creat: name = luper; mode = 3
+close: 0
+close: 1
+open: name = duper; flags = 2
+close: 2
+close: 0
+***********  Done *************
+Excess command line arguments ignored. (cmd1)
+GNU gdb (GDB) Red Hat Enterprise Linux 7.6.1-115.el7
+Copyright (C) 2013 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.  Type "show copying"
+and "show warranty" for details.
+This GDB was configured as "x86_64-redhat-linux-gnu".
+For bug reporting instructions, please see:
+<http://www.gnu.org/software/gdb/bugs/>...
+Reading symbols from /home/ugrads/nds5188/Documents/p4-xattr/p4-xattr/cmpsc473-p4...done.
+"/home/ugrads/nds5188/Documents/p4-xattr/p4-xattr/your_fs" is not a core dump: File format not recognized
+[?1034h(gdb) ^CQuit
+(gdb) ^CQuit
+(gdb) dsaf^CQuit
+(gdb) ^CQuit
+(gdb) qqqqexit
+Undefined command: "qqqqexit".  Try "help".
+(gdb) cl^CQuit
+(gdb) ^CQuit
+(gdb) Error detected on fd 0
+error detected on stdin
+CMPSC473 Error: fileCreat: file already exists on disk
+CMPSC473 Error: fileCreat: file already exists on disk
+CMPSC473 Error: fileCreat: file already exists on disk
+CMPSC473 Error: fileClose: No file corresponds to fd
+CMPSC473 Error: fileClose: No file corresponds to fd
+CMPSC473 Error: fileClose: No file corresponds to fd
+************ Running commands from file cmd1 on filesystem in file your_fs **********
+creat: name = super; mode = 1
+creat: name = duper; mode = 2
+creat: name = luper; mode = 3
+close: 0
+close: 1
+open: name = duper; flags = 2
+close: 2
+close: 0
+***********  Done *************
+Excess command line arguments ignored. (cmd1)
+GNU gdb (GDB) Red Hat Enterprise Linux 7.6.1-115.el7
+Copyright (C) 2013 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.  Type "show copying"
+and "show warranty" for details.
+This GDB was configured as "x86_64-redhat-linux-gnu".
+For bug reporting instructions, please see:
+<http://www.gnu.org/software/gdb/bugs/>...
+Reading symbols from /home/ugrads/nds5188/Documents/p4-xattr/p4-xattr/cmpsc473-p4...done.
+"/home/ugrads/nds5188/Documents/p4-xattr/p4-xattr/your_fs" is not a core dump: File format not recognized
+[?1034h(gdb) ^CQuit
+(gdb) ^CQuit
+(gdb) ^CQuit
+(gdb) ^CQuit
+(gdb) ^CQuit
+(gdb) ^CQuit
+(gdb) Error detected on fd 0
+error detected on stdin
+CMPSC473 Error: fileCreat: file already exists on disk
+CMPSC473 Error: fileCreat: file already exists on disk
+CMPSC473 Error: fileCreat: file already exists on disk
+CMPSC473 Error: fileClose: No file corresponds to fd
+CMPSC473 Error: fileClose: No file corresponds to fd
+CMPSC473 Error: fileClose: No file corresponds to fd
+************ Running commands from file cmd1 on filesystem in file your_fs **********
+creat: name = super; mode = 1
+creat: name = duper; mode = 2
+creat: name = luper; mode = 3
+close: 0
+close: 1
+open: name = duper; flags = 2
+close: 2
+close: 0
+***********  Done *************
+CMPSC473 Error: fileCreat: file already exists on disk
+CMPSC473 Error: fileCreat: file already exists on disk
+CMPSC473 Error: fileCreat: file already exists on disk
+CMPSC473 Error: fileClose: No file corresponds to fd
+CMPSC473 Error: fileClose: No file corresponds to fd
+CMPSC473 Error: fileClose: No file corresponds to fd
+************ Running commands from file cmd1 on filesystem in file your_fs **********
+creat: name = super; mode = 1
+creat: name = duper; mode = 2
+creat: name = luper; mode = 3
+close: 0
+close: 1
+open: name = duper; flags = 2
+close: 2
+close: 0
+***********  Done *************
