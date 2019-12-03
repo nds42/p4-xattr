@@ -795,11 +795,17 @@ int fileSetAttr( unsigned int fd, char *name, char *value, unsigned int name_siz
 	}
 
 	for(i = 0; i < value_size; i++) {
-		file->name[i] = value[i];
+		if (file->name_size >= i) {
+			file->name[i] = value[i];
+		}
+		else {
+			break;
+		}
 	}
 	
 	// retrieve a block to store extended attributes and assign it to file->attr_block
-
+	// Maybe diskGetAttrBlock( file, flags )?
+	
 	
 	
 	/* Error case: print on failed XATTR_CREATE */
