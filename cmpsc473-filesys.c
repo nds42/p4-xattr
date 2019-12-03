@@ -799,6 +799,8 @@ int fileSetAttr( unsigned int fd, char *name, char *value, unsigned int name_siz
 	}
 	
 	// retrieve a block to store extended attributes and assign it to file->attr_block
+
+	
 	
 	/* Error case: print on failed XATTR_CREATE */
 	errorMessage("fileSetAttr fail: already an entry for name - incompatible with flag XATTR_CREATE");
@@ -815,6 +817,13 @@ in every block. The free tells you the data type of the block. If it is free, th
 If free is 1, then the type is ddirentry. If free is 2, then type is ddentry. If it is 4, then 
 it is a file data block. By computing the data end, we know the size. Next points to the address 
 of the next disk block.
+data[0] in block 1 points to the hash table. 
+Maximum of 32 files in this project.
+block[0] in fcb_t is a pointer to the next file data block. 
+Logging/Journaling: On a disk write, write 'x' blocks, but only writing x - a blocks. Power failure.
+Write 10 KB into the disk for now. I will write 'x' blocks to the disk. If there is a power failure,
+this is what we will do. 
+Need a linked list if the extended attributes are larger than the block size. 
 */
 
 /**********************************************************************

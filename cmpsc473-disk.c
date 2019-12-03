@@ -555,6 +555,9 @@ int diskSetAttr( unsigned int attr_block, char *name, char *value,
 	return 0;
 }
 
+/*
+Difference between disk and filesys is where we start to traverse.
+*/
 
 /**********************************************************************
 

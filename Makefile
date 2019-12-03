@@ -1,4 +1,4 @@
-#
+# Name		: Nathaniel Stein
 # File          : Makefile
 # Description   : Build file for CMPSC473 project 4
 
