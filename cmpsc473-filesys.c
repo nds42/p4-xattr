@@ -953,9 +953,9 @@ int fileGetAttr( unsigned int fd, char *name, char *value, unsigned int name_siz
     	//memcpy(file->name, name, name_size);
   	
     	
-    	free(file->value);
-    	file->value = (char*) malloc(value_size*sizeof(char));
-    	memcpy(file->value, value, name_size);
+    	//free(file->value);
+    	//file->value = (char*) malloc(value_size*sizeof(char));
+    	//memcpy(file->value, value, name_size);
     	
   
     	// Create an xattr control block for the current file
