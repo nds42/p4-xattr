@@ -798,33 +798,39 @@ int fileSetAttr( unsigned int fd, char *name, char *value, unsigned int name_siz
     	file->value = (char*) malloc(value_size*sizeof(char));
     	memcpy(file->value, value, name_size);
     	*/
-  
+  	
     	// Create an xattr control block for the current file
-    	int xcb_index = diskGetAttrBlock(file, flags);
+    	int xcb_index = diskGetAttrBlock(file, flags); // needs to be changed
 	//int dblk_index = diskGetAttrBlock(file, flags); // Probably needs to be changed
     	if (xcb_index == BLK_INVALID)
     	{
+		// call diskGetAttrBlock(*file, BLOCK_CREATE);
       		errorMessage("Could not create attribute block");
       		return -1;
     	}
+	/*
+	if (flags == XATTR_CREATE) {
+		
+	}
+	*/
     	file->attr_block = xcb_index;
     	dblock_t *dblk;
 	xcb_t *xcb;
 	dblk = (dblock_t *)disk2addr( fs->base, (block2offset( xcb_index )));
-	xcb = (xcb_t *)&dblk->data;   /* convert from blank chars to a structure containing xcb and a bunch of dxattrs - union */
+	xcb = (xcb_t *)&dblk->data;   // convert from blank chars to a structure containing xcb and a bunch of dxattrs - union
 	xcb->xattrs[xcb->no_xattrs].name = (char*) malloc(name_size*sizeof(char));
     	memcpy(&(xcb->xattrs[xcb->no_xattrs].name), name, name_size);
   	
 	unsigned int total = 0;
     	unsigned int xattr_dblock_bytes = 0;
-  
+  	
   	int foundXattr = 0;
     	int xattrIndex = 0;
   	if (flags == XATTR_REPLACE)
     	{
       		for (i = 0; i < xcb->no_xattrs; i++)
       		{
-        		if (strcmp(xcb->xattrs[i],name) == 0)
+        		if (strcmp(xcb->xattrs[i], name) == 0)
         		{
           			foundXattr = 1;
           			xattrIndex = i;

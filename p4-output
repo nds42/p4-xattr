@@ -200,3 +200,22 @@ open: name = duper; flags = 2
 close: 2
 close: 0
 ***********  Done *************
+CMPSC473 Error: missing or bad command line arguments
+
+USAGE: cmpsc473-p4 <fs_file> <instruction_file>
+CMPSC473 Error: fileCreat: file already exists on disk
+CMPSC473 Error: fileCreat: file already exists on disk
+CMPSC473 Error: fileCreat: file already exists on disk
+CMPSC473 Error: fileClose: No file corresponds to fd
+CMPSC473 Error: fileClose: No file corresponds to fd
+CMPSC473 Error: fileClose: No file corresponds to fd
+************ Running commands from file cmd1 on filesystem in file your_fs **********
+creat: name = super; mode = 1
+creat: name = duper; mode = 2
+creat: name = luper; mode = 3
+close: 0
+close: 1
+open: name = duper; flags = 2
+close: 2
+close: 0
+***********  Done *************
