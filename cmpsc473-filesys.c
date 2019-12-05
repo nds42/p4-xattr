@@ -801,8 +801,8 @@ int fileSetAttr( unsigned int fd, char *name, char *value, unsigned int name_siz
   
     	// Create an xattr control block for the current file
     	int xcb_index = diskGetAttrBlock(file, flags);
-	int dblk_index = 0; // Probably needs to be changed
-    	if (dblk_index == BLK_INVALID)
+	//int dblk_index = diskGetAttrBlock(file, flags); // Probably needs to be changed
+    	if (xcb_index == BLK_INVALID)
     	{
       		errorMessage("Could not create attribute block");
       		return -1;
