@@ -812,7 +812,7 @@ int fileSetAttr( unsigned int fd, char *name, char *value, unsigned int name_siz
 	xcb_t *xcb;
 	dblk = (dblock_t *)disk2addr( fs->base, (block2offset( xcb_index )));
 	xcb = (xcb_t *)&dblk->data;   /* convert from blank chars to a structure containing xcb and a bunch of dxattrs - union */
-	xcb->xattrs[xcb->no_xattrs].name = (char[]) malloc(name_size*sizeof(char));
+	xcb->xattrs[xcb->no_xattrs].name = (char*) malloc(name_size*sizeof(char));
     	memcpy(&(xcb->xattrs[xcb->no_xattrs].name), name, name_size);
   	
 	unsigned int total = 0;
