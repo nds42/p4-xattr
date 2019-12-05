@@ -801,6 +801,7 @@ int fileSetAttr( unsigned int fd, char *name, char *value, unsigned int name_siz
   
     	// Create an xattr control block for the current file
     	int xcb_index = diskGetAttrBlock(file, flags);
+	int dblk_index = 0; // Probably needs to be changed
     	if (dblk_index == BLK_INVALID)
     	{
       		errorMessage("Could not create attribute block");
@@ -811,8 +812,8 @@ int fileSetAttr( unsigned int fd, char *name, char *value, unsigned int name_siz
 	xcb_t *xcb;
 	dblk = (dblock_t *)disk2addr( fs->base, (block2offset( xcb_index )));
 	xcb = (xcb_t *)&dblk->data;   /* convert from blank chars to a structure containing xcb and a bunch of dxattrs - union */
-	xcb->xattrs[no_xattrs].name = (char*) malloc(name_size*sizeof(char));
-    	memcpy(&(xcb->xattrs[no_xattrs].name), name, name_size);
+	xcb->xattrs[xcb->no_xattrs].name = (char*) malloc(name_size*sizeof(char));
+    	memcpy(&(xcb->xattrs[xcb->no_xattrs].name), name, name_size);
   	
 	unsigned int total = 0;
     	unsigned int xattr_dblock_bytes = 0;
@@ -821,7 +822,7 @@ int fileSetAttr( unsigned int fd, char *name, char *value, unsigned int name_siz
     	int xattrIndex = 0;
   	if (flags == XATTR_REPLACE)
     	{
-      		for (int i = 0; i < xcb->no_xattrs; i++)
+      		for (i = 0; i < xcb->no_xattrs; i++)
       		{
         		if (strcmp(xcb->xattrs[i],name) == 0)
         		{
@@ -872,7 +873,7 @@ int fileSetAttr( unsigned int fd, char *name, char *value, unsigned int name_siz
 
 		/* write to this block */
         // TODO Is the first argument the correct offset for writing to xattr data blocks?
-		xattr_dblock_bytes = diskWrite( &(file->diskfile->size), xattr_dblockblock, value, value_size, 
+		xattr_dblock_bytes = diskWrite( &(file->diskfile->size), xattr_dblock, value, value_size, 
 					 fstat->offset, total ); // do this in diskSetAttr. Call diskSetAttr in this function
 		
 		/* update the total written and the file offset as well */
@@ -948,17 +949,17 @@ int fileGetAttr( unsigned int fd, char *name, char *value, unsigned int name_siz
 		errorMessage("fileSetAttr: No file corresponds to fstat");
 		return -1;
 	}
-    	file->name = (char*) malloc(name_size*sizeof(char));
-    	memcpy(file->name, name, name_size);
+    	//file->name = (char*) malloc(name_size*sizeof(char));
+    	//memcpy(file->name, name, name_size);
   	
-    	/*
+    	
     	free(file->value);
     	file->value = (char*) malloc(value_size*sizeof(char));
     	memcpy(file->value, value, name_size);
-    	*/
+    	
   
     	// Create an xattr control block for the current file
-    	int xcb_index = diskGetAttrBlock(file, flags);
+    	/*int xcb_index = diskGetAttrBlock(file, flags);
     	if (dblk_index == BLK_INVALID)
     	{
       		errorMessage("Could not create attribute block");
@@ -968,17 +969,17 @@ int fileGetAttr( unsigned int fd, char *name, char *value, unsigned int name_siz
     	dblock_t *dblk;
 	xcb_t *xcb;
 	dblk = (dblock_t *)disk2addr( fs->base, (block2offset( xcb_index )));
-	xcb = (xcb_t *)&dblk->data;   /* convert from blank chars to a structure containing xcb and a bunch of dxattrs - union */
+	xcb = (xcb_t *)&dblk->data;   // convert from blank chars to a structure containing xcb and a bunch of dxattrs - union
 	
 	unsigned int total = 0;
     	unsigned int xattr_dblock_bytes = 0;
-    	/* write to the file */
-	while ( total < value_size ) {   /* more to write */
+    	// write to the file
+	while ( total < value_size ) {   // more to write
 		int index = fstat->offset / ( FS_BLOCKSIZE - sizeof(dblock_t) );
 		unsigned int xattr_dblock = xcb->value_blocks[index];
 		unsigned int block_bytes;
 
-		/* if block has not been brought into memory, copy it */
+		// if block has not been brought into memory, copy it
 		if ( xattr_dblock == BLK_INVALID ) {
 			xattr_dblock = diskGetBlock( file, index );
 			xcb->value_blocks[index] = xattr_dblock;
@@ -994,18 +995,18 @@ int fileGetAttr( unsigned int fd, char *name, char *value, unsigned int name_siz
 			return total;
 		}
 
-		/* write to this block */
+		// write to this block
         // TODO Is the first argument the correct offset for writing to xattr data blocks?
 		xattr_dblock_bytes = diskWrite( &(file->diskfile->size), xattr_dblockblock, value, value_size, 
 					 fstat->offset, total );
 
-		/* update the total written and the file offset as well */
+		// update the total written and the file offset as well
 		total += xattr_dblock_bytes; 
 		fstat->offset += xattr_dblock_bytes;
 		value += xattr_dblock_bytes;
 	}
 
-	/* update the file's size (if necessary) */
+	// update the file's size (if necessary)
 	if ( fstat->offset > xcb->size ) {
 		xcb->size = fstat->offset;
 	}
@@ -1029,7 +1030,7 @@ int fileGetAttr( unsigned int fd, char *name, char *value, unsigned int name_siz
 	if ( file == NULL ) {
 		errorMessage("fileGetAttr: No file corresponds to fstat");
 		return -1;
-	}
+	}*/
 
 	
 	
