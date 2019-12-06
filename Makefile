@@ -4,9 +4,9 @@
 
 
 # Environment Setup
-LIBDIRS=-L. 
+LIBDIRS=-L.
 INCLUDES=-I. -I/usr/include/
-CC=gcc 
+CC=gcc
 CFLAGS=-c $(INCLUDES) -g -m32 -Wall
 # CFLAGS=-c $(INCLUDES) -g -Wall
 LINK=gcc -g -m32
@@ -21,25 +21,29 @@ RANLIB=ranlib
 #
 # Setup builds
 
-PT-TARGETS=cmpsc473-p4 
+PT-TARGETS=cmpsc473-p4
 
 # pthreads
-LIBS=-l$(UTILLIB) 
+LIBS=-l$(UTILLIB)
 
 #
 # Project Protections
 
 p4 : $(PT-TARGETS)
 
-cmpsc473-p4 : cmpsc473-p4.o cmpsc473-util.o cmpsc473-list.o cmpsc473-filesys.o cmpsc473-disk.o 
+cmpsc473-p4 : cmpsc473-p4.o cmpsc473-util.o cmpsc473-list.o cmpsc473-filesys.o cmpsc473-disk.o
 	$(LINK) $(LDFLAGS) cmpsc473-util.o cmpsc473-list.o cmpsc473-p4.o cmpsc473-filesys.o \
 	cmpsc473-disk.o -lm -o $@
 
 clean:
-	rm -f *.o *~ $(TARGETS) $(LIBOBJS) lib$(UTILLIB).a
+	rm -f *.o *~ $(PT-TARGETS) $(LIBOBJS) lib$(UTILLIB).a
+
+test:
+	@chmod +x p4-grade.py
+	python p4-grade.py
 
 BASENAME=p4-xattr
-tar: 
+tar:
 	tar cvfz $(BASENAME).tgz -C ..\
 	    $(BASENAME)/Makefile \
 	    $(BASENAME)/cmpsc473-p4.c \
