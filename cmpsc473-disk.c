@@ -611,7 +611,7 @@ int diskGetAttr( unsigned int attr_block, char *name, char *value,
                 		}
                 	else
                 	{
-                    		unsigned int value_block_index = xcb->axttrs[i].value_offset / FS_BLOCKSIZE;
+                    		unsigned int value_block_index = xcb->xattrs[i].value_offset / FS_BLOCKSIZE;
 			    	unsigned int value_block = xcb->value_blocks[value_block_index];
 			    	char * buf = (char*) malloc(size*sizeof(char));
 			    	// TODO How can we read values that span multiple blocks using diskRead?
@@ -624,12 +624,12 @@ int diskGetAttr( unsigned int attr_block, char *name, char *value,
 			    	//      series of contiguous memory blocks, or is it an offset only in the current value_block
 			    	//      that the dxattr_t's value is a part of? If the latter is true, what other indicators exist
 			    	//      to denote the value_block that the dxattr_t is a part of? 
-			    	unsigned int bytes_read = diskRead(value_block, char *buf, unsigned int bytes, 
-		                                               unsigned int offset, unsigned int sofar )
+			    	//unsigned int bytes_read = diskRead(value_block, char *buf, unsigned int bytes, 
+		                //                               unsigned int offset, unsigned int sofar )
                 	}
             	}
         }
-    return 0;
+    	return 0;
 }
 
 //typedef struct dxattr {
