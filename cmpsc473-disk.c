@@ -579,5 +579,76 @@ int diskGetAttr( unsigned int attr_block, char *name, char *value,
 { 
 	/* IMPLEMENT THIS */
 
-	return 0;
+	//unsigned int = sizeof(dblock_t) + sizeof(xcb_t);
+    	//char * buf = (char*) malloc(
+	///* IMPLEMENT THIS */
+    	//unsigned int bytes_read = diskRead(attr_block, char *buf, unsigned int bytes, 
+	//	       unsigned int offset, unsigned int sofar )
+
+
+    	dblock_t *dblk;
+	xcb_t *xcb;
+	int i;
+    	dblk = (dblock_t *)disk2addr( fs->base, (block2offset( attr_block )));
+	xcb = (xcb_t *)&dblk->data;   /* convert from blank chars to a structure containing xcb and a bunch of dxattrs - union */
+	// xcb->no_xattrs = 0;
+	// xcb->size = 0;   
+
+    	// TODO Fill in xcb->xattrs with next no_xattrs*sizeof(dxattr_t) bytes within the attr_block,
+    	//      because xcb gets written to disk and does not take arrays in dynamic memory with it (only pointer
+    	//      is written    
+
+	for ( i = 0; i < xcb->no_xattrs; i++ ) {  
+        	if (xcb->xattrs[i].name != NULL)
+       		{
+            		char * nameToCompare = (char*) malloc(name_size * sizeof(char));
+            		memcpy(nameToCompare, xcb->xattrs[i].name, name_size);
+            		if (strcmp(nameToCompare, name) == 0)
+            		{
+                		if (existsp == 1)
+                		{       
+                    			return 1;
+                		}
+                	else
+                	{
+                    		unsigned int value_block_index = xcb->axttrs[i].value_offset / FS_BLOCKSIZE;
+			    	unsigned int value_block = xcb->value_blocks[value_block_index];
+			    	char * buf = (char*) malloc(size*sizeof(char));
+			    	// TODO How can we read values that span multiple blocks using diskRead?
+			    	//      Will this just rely on us manually calculating the individual parts of each block
+			    	//      that will be read? (e.g. For a diskGetAttr requesting an 800 byte value, doing 
+			    	//      one diskRead on the last 200 bytes of the first value_block starting from the computed offset,
+			    	//      then another disk_read on the first 600 bytes of the next value block,
+			    	//      memcpy'ing each diskRead separately into a buffer of the desired size 800)
+			    	// TODO Also, is the value_offset data member a memory offset into the overall value_blocks
+			    	//      series of contiguous memory blocks, or is it an offset only in the current value_block
+			    	//      that the dxattr_t's value is a part of? If the latter is true, what other indicators exist
+			    	//      to denote the value_block that the dxattr_t is a part of? 
+			    	unsigned int bytes_read = diskRead(value_block, char *buf, unsigned int bytes, 
+		                                               unsigned int offset, unsigned int sofar )
+                	}
+            	}
+        }
+    return 0;
 }
+
+//typedef struct dxattr {
+//	unsigned int name_size;        /* length of name string in bytes */
+//	unsigned int value_offset;     /* offset of value in value blocks */
+//	unsigned int value_size;       /* length of value string in bytes */
+//	char name[0];                  /* reference to the name string */
+//} dxattr_t;
+	
+//typedef struct xcb {
+//	unsigned int value_blocks[XATTR_BLOCKS];  /* blocks for xattr values */
+//	unsigned int no_xattrs;            /* the number of xattrs in the block */
+//	unsigned int size;                 /* this is the end of the value list in bytes */
+//	dxattr_t xattrs[0];                /* then a list of xattr structs (names and value refs) */
+//} xcb_t;
+
+
+
+
+
+
+
