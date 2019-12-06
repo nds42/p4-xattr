@@ -609,26 +609,27 @@ int diskGetAttr( unsigned int attr_block, char *name, char *value,
                 		{       
                     			return 1;
                 		}
-                	else
-                	{
-                    		unsigned int value_block_index = xcb->xattrs[i].value_offset / FS_BLOCKSIZE;
-			    	unsigned int value_block = xcb->value_blocks[value_block_index];
-			    	char * buf = (char*) malloc(size*sizeof(char));
-			    	// TODO How can we read values that span multiple blocks using diskRead?
-			    	//      Will this just rely on us manually calculating the individual parts of each block
-			    	//      that will be read? (e.g. For a diskGetAttr requesting an 800 byte value, doing 
-			    	//      one diskRead on the last 200 bytes of the first value_block starting from the computed offset,
-			    	//      then another disk_read on the first 600 bytes of the next value block,
-			    	//      memcpy'ing each diskRead separately into a buffer of the desired size 800)
-			    	// TODO Also, is the value_offset data member a memory offset into the overall value_blocks
-			    	//      series of contiguous memory blocks, or is it an offset only in the current value_block
-			    	//      that the dxattr_t's value is a part of? If the latter is true, what other indicators exist
-			    	//      to denote the value_block that the dxattr_t is a part of? 
-			    	//unsigned int bytes_read = diskRead(value_block, char *buf, unsigned int bytes, 
-		                //                               unsigned int offset, unsigned int sofar )
-                	}
-            	}
-        }
+                		else
+                		{
+                    			unsigned int value_block_index = xcb->xattrs[i].value_offset / FS_BLOCKSIZE;
+			    		unsigned int value_block = xcb->value_blocks[value_block_index];
+				    	char * buf = (char*) malloc(size*sizeof(char));
+				    	// TODO How can we read values that span multiple blocks using diskRead?
+				    	//      Will this just rely on us manually calculating the individual parts of each block
+				    	//      that will be read? (e.g. For a diskGetAttr requesting an 800 byte value, doing 
+				    	//      one diskRead on the last 200 bytes of the first value_block starting from the computed offset,
+				    	//      then another disk_read on the first 600 bytes of the next value block,
+				    	//      memcpy'ing each diskRead separately into a buffer of the desired size 800)
+				    	// TODO Also, is the value_offset data member a memory offset into the overall value_blocks
+				    	//      series of contiguous memory blocks, or is it an offset only in the current value_block
+				    	//      that the dxattr_t's value is a part of? If the latter is true, what other indicators exist
+				    	//      to denote the value_block that the dxattr_t is a part of? 
+				    	//unsigned int bytes_read = diskRead(value_block, char *buf, unsigned int bytes, 
+				        //                               unsigned int offset, unsigned int sofar )
+                		}
+            		}
+        	}
+	}
     	return 0;
 }
 
