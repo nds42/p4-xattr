@@ -653,7 +653,7 @@ int diskGetAttr( unsigned int attr_block, char *name, char *value,
     	//unsigned int bytes_read = diskRead(attr_block, char *buf, unsigned int bytes, 
 	//	       unsigned int offset, unsigned int sofar )
 
-
+	int total = 0;
     	dblock_t *dblk;
 	xcb_t *xcb;
 	int i;
@@ -736,12 +736,13 @@ int diskGetAttr( unsigned int attr_block, char *name, char *value,
 						xattr_value_offset += bytes_read;
 						buf += bytes_read;
 				    	}
+					total = total_bytes_read;
 				    	return total_bytes_read;
                 		}
             		}
         	}
 	}
-    	return 0;
+    	return total;
 }
 }
 //typedef struct dxattr {
