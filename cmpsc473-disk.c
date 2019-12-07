@@ -710,7 +710,7 @@ int diskGetAttr( unsigned int attr_block, char *name, char *value,
 						value_block = xcb->value_blocks[value_block_index];
 
 				        	/* if block has not been brought into memory, copy it */
-						if ( value_block == BLK_INVALID ) {
+						/*if ( value_block == BLK_INVALID ) {
 				            		errorMessage("diskGetAttr: INVALID LOGIC REACHED, NEED TO MODIFY");			                
 				            		value_block = diskGetBlock( file, index );
 							//file->blocks[index] = block;
@@ -723,8 +723,8 @@ int diskGetAttr( unsigned int attr_block, char *name, char *value,
 
 						if ( value_block_index >= XATTR_BLOCKS ) {
 							errorMessage("diskGetAttr: Max size of value file reached");
-							return total;
-						}
+							return -1;
+						}*/
 
 						/* read this block */
 				        	unsigned int bytes_read = diskRead(value_block, buf, num_bytes_to_read, 
