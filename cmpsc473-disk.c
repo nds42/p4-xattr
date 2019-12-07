@@ -743,19 +743,6 @@ int diskGetAttr( unsigned int attr_block, char *name, char *value,
 	}
     	return 0;
 }
-//typedef struct dxattr {
-//	unsigned int name_size;        /* length of name string in bytes */
-//	unsigned int value_offset;     /* offset of value in value blocks */
-//	unsigned int value_size;       /* length of value string in bytes */
-//	char name[0];                  /* reference to the name string */
-//} dxattr_t;
-	
-//typedef struct xcb {
-//	unsigned int value_blocks[XATTR_BLOCKS];  /* blocks for xattr values */
-//	unsigned int no_xattrs;            /* the number of xattrs in the block */
-//	unsigned int size;                 /* this is the end of the value list in bytes */
-//	dxattr_t xattrs[0];                /* then a list of xattr structs (names and value refs) */
-//} xcb_t;
 
 
 
