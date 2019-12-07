@@ -829,7 +829,7 @@ int fileSetAttr( unsigned int fd, char *name, char *value, unsigned int name_siz
             		}
         	}
     	}
-	return attr_set;
+	return -1;
 }
 
 /*
