@@ -778,7 +778,6 @@ int fileSetAttr( unsigned int fd, char *name, char *value, unsigned int name_siz
 {
 	/* IMPLEMENT THIS */
 
-	int i = 0;
 	fstat_t *fstat = fs->proc->fstat_table[fd];
 	file_t *file;
 	
@@ -830,7 +829,7 @@ int fileSetAttr( unsigned int fd, char *name, char *value, unsigned int name_siz
             		}
         	}
     	}
-	
+	return attr_set;
 }
 
 /*
@@ -862,7 +861,6 @@ int fileGetAttr( unsigned int fd, char *name, char *value, unsigned int name_siz
 {
 	/* IMPLEMENT THIS */
 	
-	int i = 0;
 	fstat_t *fstat = fs->proc->fstat_table[fd];
 	file_t *file;
 	
@@ -900,6 +898,7 @@ int fileGetAttr( unsigned int fd, char *name, char *value, unsigned int name_siz
 			return 0;
         	}
     	}
+	return -1;
 }
 
 
