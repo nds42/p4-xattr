@@ -254,7 +254,7 @@ if __name__ == '__main__':
             fd = 2
             continue
 
-
+        none = -1
         flag = s.find('=')
         s = s.split('=')
         if flag != -1:
@@ -262,7 +262,10 @@ if __name__ == '__main__':
 
                 for name in l_f2_n:
                     if s[0] == name:
+                        none = 1
+
                         if s[1] == l_f2_v[l_f2_n.index(name)]:
+
                             cmd4_set = cmd4_set + 2
                             print ("[CORRECT(POINTS:+2):] fd = %d \t ATTR NAME: %s \t VALUE: %s" %(fd, s[0],s[1]))
                             turn = -1
@@ -272,7 +275,9 @@ if __name__ == '__main__':
 
                 for name in l_f1_n:
                     if s[0] == name:
+                        none = 1
                         if s[1] == l_f1_v[l_f1_n.index(name)]:
+
                             cmd4_set = cmd4_set + 2
                             print ("[CORRECT(POINTS:+2):] fd = %d \t ATTR NAME: %s \t VALUE: %s" %(fd, s[0],s[1]))
                             turn = -1
@@ -283,7 +288,9 @@ if __name__ == '__main__':
 
                 for name in l_f0_n:
                     if s[0] == name:
+                        none = 1
                         if str(s[0]) == "security":
+
                             if s[1] == l_f0_v[l_f0_n.index(name)]:
                                 cmd4_set = cmd4_set + 2
                                 print ("[CORRECT(POINTS:+2):] fd = %d \t ATTR NAME: %s \t VALUE: %s" %( fd, s[0],s[1]))
@@ -292,16 +299,20 @@ if __name__ == '__main__':
 
                         else:
                             if s[1] == l_f0_v[l_f0_n.index(name)]:
+
                                 cmd4_set = cmd4_set + 1
                                 print ("[CORRECT(POINTS:+1):] fd = %d \t ATTR NAME: %s \t VALUE: %s" %( fd, s[0],s[1]))
                                 turn = -1
                                 break
 
             if turn != -1:
-                if s[1] == '':
+                if s[1] == '' and none == -1:
                     cmd4_set = cmd4_set + 2
+
+                    turn = -1
                     print ("[CORRECT(POINTS:+2):] fd = %d \t ATTR NAME: %s \t VALUE:" %(fd, s[0]))
                 else:
+                    turn = -1
                     print ("[INCORRECT(POINTS:0):] fd = %d \t ATTR NAME: %s" %(fd, s[0]))
 
 
@@ -339,7 +350,7 @@ if __name__ == '__main__':
             turn = 2
             fd = 2
             continue
-
+        none = -1
         flag = s.find('=')
         s = s.split('=')
         if flag != -1:
@@ -347,6 +358,7 @@ if __name__ == '__main__':
 
                 for name in l_f2_n:
                     if s[0] == name:
+                        none = 1
                         if s[1] == l_f2_v[l_f2_n.index(name)]:
                             cmd4_get = cmd4_get + 1
                             print ("[CORRECT(POINTS:+1):] fd = %d \t ATTR NAME: %s \t VALUE: %s" %(fd,s[0],s[1]))
@@ -361,6 +373,7 @@ if __name__ == '__main__':
 
                 for name in l_f1_n:
                     if s[0] == name:
+                        none = 1
                         if s[1] == l_f1_v[l_f1_n.index(name)]:
                             cmd4_get = cmd4_get + 1
                             print ("[CORRECT(POINTS:+1):] fd = %d \t ATTR NAME: %s \t VALUE: %s" %(fd,s[0],s[1]))
@@ -375,6 +388,7 @@ if __name__ == '__main__':
 
                 for name in l_f0_n:
                     if s[0] == name:
+                        none = 1
                         if s[1] == l_f0_v[l_f0_n.index(name)]:
                             cmd4_get = cmd4_get + 1
                             print ("[CORRECT(POINTS:+1):] fd = %d \t ATTR NAME: %s \t VALUE: %s" %(fd, s[0],s[1]))
@@ -385,10 +399,12 @@ if __name__ == '__main__':
                             print ("[INCORRECT(POINTS:0):] fd = %d \t ATTR NAME: %s" %(fd, s[0]))
 
             if turn != -1:
-                if s[1] == '':
+                if s[1] == '' and none == -1:
                     cmd4_get = cmd4_get + 1
+                    turn = -1
                     print ("[CORRECT(POINTS:+1):] fd = %d \t ATTR NAME: %s \t VALUE:" %(fd,s[0]))
                 else:
+                    turn = -1
                     print ("[INCORRECT(POINTS:0):] fd = %d \t ATTR NAME: %s" %(fd,s[0]))
 
 
@@ -396,8 +412,7 @@ if __name__ == '__main__':
     cmd4_e = 0
     if e4 == error4:
         cmd4_e = 7
-    elif e4 > 0 and e4 < error4:
-        cmd4_e = 3
+
     print( "------------------------------------------------------------------------------------")
     print ("[TOTAL POINTS FOR %s] : [%dpts]/[%dpts]" %("GETXATTR PART", cmd4_get, 4))
     print( "------------------------------------------------------------------------------------")
@@ -489,7 +504,7 @@ if __name__ == '__main__':
             fd = 2
             continue
 
-
+        none = -1
         flag = s.find('=')
         s = s.split('=')
         if flag != -1:
@@ -497,9 +512,10 @@ if __name__ == '__main__':
 
                 for name in l_f2_n:
                     if s[0] == name:
+                        none = 1
                         if s[1] == l_f2_v[l_f2_n.index(name)]:
-                            cmd5_set = cmd5_set + 1
-                            print ("[CORRECT(POINTS:+1):] fd = %d \t NAME: %s \t VALUE: %s" %(fd,s[0],s[1]))
+                            cmd5_set = cmd5_set + 2
+                            print ("[CORRECT(POINTS:+2):] fd = %d \t NAME: %s \t VALUE: %s" %(fd,s[0],s[1]))
                             turn = -1
                             break
 
@@ -507,27 +523,31 @@ if __name__ == '__main__':
 
                 for name in l_f1_n:
                     if s[0] == name:
+                        none = 1
                         if str(s[0]) == "article.venues":
-                            if s[1] == l_f1_v[l_f1_n.index(name)]:
-                                cmd5_set = cmd5_set + 2
-                                print ("[CORRECT(POINTS:+2):] fd = %d \t NAME: %s \t VALUE: %s" %(fd,s[0],s[1]))
-                                turn = -1
-                                break
-
-                        else:
                             if s[1] == l_f1_v[l_f1_n.index(name)]:
                                 cmd5_set = cmd5_set + 1
                                 print ("[CORRECT(POINTS:+1):] fd = %d \t NAME: %s \t VALUE: %s" %(fd,s[0],s[1]))
                                 turn = -1
                                 break
 
+
+                        else:
+                            if s[1] == l_f1_v[l_f1_n.index(name)]:
+                                cmd5_set = cmd5_set + 2
+                                print ("[CORRECT(POINTS:+2):] fd = %d \t NAME: %s \t VALUE: %s" %(fd,s[0],s[1]))
+                                turn = -1
+                                break
+
+
             elif turn == 2:
 
                 for name in l_f0_n:
                     if s[0] == name:
+                        none = 1
                         if str(s[0]) == "article.venues":
-                            if s[1] == l_f0_v[l_f0_n.index(name)]:
-                                cmd5_set = cmd5_set + 2
+                            if s[1] == '':
+                                cmd5_set = cmd5_set + 1
                                 print ("[CORRECT(POINTS:+2):] fd = %d \t NAME: %s \t VALUE: %s" %(fd,s[0],s[1]))
                                 turn = -1
                                 break
@@ -540,10 +560,12 @@ if __name__ == '__main__':
                                 break
 
             if turn != -1:
-                if s[1] == '':
-                    cmd5_set = cmd5_set + 2
-                    print ("[CORRECT(POINTS:+2):] fd = %d \t NAME: %s \t VALUE:" %(fd,s[0]))
+                if s[1] == '' and none == -1:
+                    cmd5_set = cmd5_set + 1
+                    turn = -1
+                    print ("[CORRECT(POINTS:+1):] fd = %d \t NAME: %s \t VALUE:" %(fd,s[0]))
                 else:
+                    turn = -1
                     print ("[INCORRECT(POINTS:0):] fd = %d \t ATTR NAME: %s" %(fd,s[0]))
 
 
@@ -580,7 +602,7 @@ if __name__ == '__main__':
         if s[0:15] == "setxattr: fd: 1":
             set = 1
             continue
-
+        none = -1
         flag = s.find('=')
         s = s.split('=')
         if flag != -1:
@@ -588,6 +610,7 @@ if __name__ == '__main__':
 
                 for name in l_f1_n:
                     if s[0] == name:
+                        none = 1
                         if s[1] == l_f1_v[l_f1_n.index(name)]:
                             cmd5_get = cmd5_get + 1
                             print ("[CORRECT(POINTS:+1):] fd = %d \t ATTR NAME: %s \t VALUE: %s" %(fd,s[0],s[1]))
@@ -603,6 +626,7 @@ if __name__ == '__main__':
 
                 for name in l_f0_n:
                     if s[0] == name:
+                        none = 1
                         if s[1] == l_f0_v[l_f0_n.index(name,set*l_f0_n.index(name)+set*1)]:
                                 cmd5_get = cmd5_get + 1
                                 print ("[CORRECT(POINTS:+1):] fd = %d \t ATTR NAME: %s \t VALUE: %s" %(fd,s[0],s[1]))
@@ -614,10 +638,12 @@ if __name__ == '__main__':
 
 
             if turn != -1:
-                if s[1] == '':
+                if s[1] == '' and none == -1:
                     cmd5_get = cmd5_get + 1
+                    turn = -1
                     print ("[CORRECT(POINTS:+1):] fd = %d \t ATTR NAME: %s \t VALUE:" %(fd,s[0]))
                 else:
+                    turn = -1
                     print ("[INCORRECT(POINTS:0):] fd = %d \t ATTR NAME: %s" %(fd,s[0]))
 
 
@@ -662,6 +688,6 @@ if __name__ == '__main__':
     print( "#####################################################################################################################")
 
     print( "[FINAL SCORE:]")
-    points = (-5)*diff + 4 + cmd5_e + cmd4_e + cmd4_get + cmd4_set + cmd3_get +cmd3_set + cmd5_get +cmd5_set
-    print ("[INFO]  %s [%dpts]/[%dpts]" %("TOTAL POINTS EARNED = ", points*60/62, 60))
+    points = (-5)*diff + 2 + cmd5_e + cmd4_e + cmd4_get + cmd4_set + cmd3_get +cmd3_set + cmd5_get +cmd5_set
+    print ("[INFO]  %s [%dpts]/[%dpts]" %("TOTAL POINTS EARNED = ", points, 60))
     print( "#####################################################################################################################")
