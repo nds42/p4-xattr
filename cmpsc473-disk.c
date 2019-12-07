@@ -665,7 +665,8 @@ int diskGetAttr( unsigned int attr_block, char *name, char *value,
     	//      because xcb gets written to disk and does not take arrays in dynamic memory with it (only pointer
     	//      is written    
 
-	for ( i = 0; i < xcb->no_xattrs; i++ ) {  
+	for ( i = 0; i < xcb->no_xattrs; i++ ) 
+	{  
         	if (xcb->xattrs[i].name != NULL)
        		{
             		char * nameToCompare = (char*) malloc(name_size * sizeof(char));
