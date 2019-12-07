@@ -559,7 +559,8 @@ int diskSetAttr( unsigned int attr_block, char *name, char *value,
     	// TODO We have no way of validating that our xcb is valid and really exists. How can we do this?
 	xcb = (xcb_t *)&dblk->data;   /* convert from blank chars to a structure containing xcb and a bunch of dxattrs - union */
 	
-    	for ( i = 0; i < xcb->no_xattrs; i++ ) {  
+    	for ( i = 0; i < xcb->no_xattrs; i++ ) 
+	{  
         	if (xcb->xattrs[i].name != NULL)
        		{
             		char * nameToCompare = (char*) malloc(name_size * sizeof(char));
@@ -620,6 +621,7 @@ int diskSetAttr( unsigned int attr_block, char *name, char *value,
 				return total;
 			}
 		}
+	}
 	return 0;
 }
 
