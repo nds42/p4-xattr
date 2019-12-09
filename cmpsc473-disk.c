@@ -579,7 +579,8 @@ int diskSetAttr( unsigned int attr_block, char *name, char *value,
 
 				    	// if block has not been brought into memory, copy it 
 				    	if ( block == BLK_INVALID ) {
-		                		errorMessage("diskSetAttr: INVALID LOGIC REACHED, NEED TO MODIFY");			                
+		                		errorMessage("diskSetAttr: INVALID LOGIC REACHED, NEED TO
+								MODIFY");			                
 		                		exit(1);			            
 		                		//block = diskGetBlock( file, index );
 					    	//file->blocks[index] = block;
@@ -596,20 +597,16 @@ int diskSetAttr( unsigned int attr_block, char *name, char *value,
 		            		}
 
 				    	// write to this block 
-				    	// TODO The first argument of diskWrite is a pointer to the offset for the file we are going to write some info
-				    	// to disk for. Considering we are on a log-based filesystem, this makes sense, since we want to modify the offset
-				    	// to the newly written location, where the file's data is now stored. However, why would we pass in a pointer to the 
-				    	// file->diskfile->size if we are supposed to be passing in an offset to modify? Is the offset the disk location of the
-				    	// start of the file?
-				    	// TODO Why is an offset passed into diskWrite as well as 
-				    	block_bytes = diskWrite( &(xcb->size), block, value, value_size, 
+				    	// TODO The first argument of diskWrite is a pointer to the offset for the file we are going to write 						// some info to disk for. Considering we are on a log-based filesystem, this makes sense, since we want 					// to modify the offset to the newly written location, where the file's data is now stored. However, why 						// would we pass in a pointer to the file->diskfile->size if we are supposed to be passing in an offset 					// to modify? Is the offset the disk location of the start of the file?
+				    	// TODO Why is an offset passed into diskWrite as well as a disk_offset?
+				    	// block_bytes = diskWrite( &(xcb->size), block, value, value_size, 
 							     xcb->xattrs[i].value_offset, total );
 
 				    	// update the total written and the file offset as well 
 				    	total += block_bytes; 
 		            		// TODO Mirrored fileWrite by modifying offset by block_bytes, but it really doesn't make sense because
 		            		//      we didn't just write to value_offset
-		            		// TODO Is value_offset an indicator of where the value starts on the disk? or an indicator of where it ends?
+		            		// TODO Is value_offset an indicator of where the value starts on the disk? or an indicator of where it 					// ends?
 				    	xcb->xattrs[i].value_offset += block_bytes;
 				    	value += block_bytes;
 	            		}*/
@@ -651,7 +648,6 @@ int diskGetAttr( unsigned int attr_block, char *name, char *value,
 
 	//unsigned int = sizeof(dblock_t) + sizeof(xcb_t);
     	//char * buf = (char*) malloc(
-	///* IMPLEMENT THIS */
     	//unsigned int bytes_read = diskRead(attr_block, char *buf, unsigned int bytes, 
 	//	       unsigned int offset, unsigned int sofar )
 
@@ -665,7 +661,7 @@ int diskGetAttr( unsigned int attr_block, char *name, char *value,
 
     	// TODO Fill in xcb->xattrs with next no_xattrs*sizeof(dxattr_t) bytes within the attr_block,
     	//      because xcb gets written to disk and does not take arrays in dynamic memory with it (only pointer
-    	//      is written    
+    	//      is written)
 
 	for ( i = 0; i < xcb->no_xattrs; i++ ) 
 	{  
@@ -685,6 +681,7 @@ int diskGetAttr( unsigned int attr_block, char *name, char *value,
 				    	unsigned int value_block = xcb->value_blocks[value_block_index];
 				    	unsigned int xattr_value_offset = xcb->xattrs[i].value_offset;
 				    	char * buf = (char*) malloc(size*sizeof(char));
+					// The answer to these questions in piazza was not specific enough. Need more of a concrete answer.
 				    	// TODO How can we read values that span multiple blocks using diskRead?
 				    	//      Will this just rely on us manually calculating the individual parts of each block
 				    	//      that will be read? (e.g. For a diskGetAttr requesting an 800 byte value, doing 
@@ -699,8 +696,7 @@ int diskGetAttr( unsigned int attr_block, char *name, char *value,
 				    	/* read limit is either size of buffer or distance to end of file */
 					int num_bytes_to_read = min( size, xcb->xattrs[i].value_size);
 
-				    	// TODO Why are we considering the  "distance to end of file" as file->size - fstat->offset? Shouldn't it just be file->size?
-				    	//      And, is this relevant to our fileGetAttr call? Or is our "distance to end of file" just the xattr's value size?                    
+				    	// TODO Why are we considering the  "distance to end of file" as file->size - fstat->offset? Shouldn't it 						// just be file->size? And, is this relevant to our fileGetAttr call? Or is our "distance to end of file" 						// just the xattr's value size?                    
 				    	/* read limit is either size of buffer or distance to end of file */
 				    	// 	bytes = min( bytes, ( file->size - fstat->offset ));
 
@@ -713,7 +709,8 @@ int diskGetAttr( unsigned int attr_block, char *name, char *value,
 
 				        	/* if block has not been brought into memory, copy it */
 						/*if ( value_block == BLK_INVALID ) {
-				            		errorMessage("diskGetAttr: INVALID LOGIC REACHED, NEED TO MODIFY");			                
+				            		errorMessage("diskGetAttr: INVALID LOGIC REACHED, NEED TO 
+										MODIFY");			                
 				            		value_block = diskGetBlock( file, index );
 							//file->blocks[index] = block;
 				      
@@ -729,7 +726,8 @@ int diskGetAttr( unsigned int attr_block, char *name, char *value,
 						}*/
 
 						/* read this block */
-				        	unsigned int bytes_read = diskRead(value_block, buf, num_bytes_to_read, xattr_value_offset, total_bytes_read);                        
+				        	unsigned int bytes_read = diskRead(value_block, buf, num_bytes_to_read, xattr_value_offset, 
+										total_bytes_read);                        
 
 						/* update the total written and the file offset as well */
 						total_bytes_read += bytes_read;
