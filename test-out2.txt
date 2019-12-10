@@ -4,12 +4,12 @@ XATTR for luper: NUM_XATTR = 0 	  TOTAL_SUM_OF_XATTR_NAMES = 0
 write: fd = 0; buf file = data1; unused = 1
 write: fd = 0; buf file = data2; unused = 1
 seek: fd = 0; size = 500
-read: fd = 0; buf = 0x9be2e88; size = 22
+read: fd = 0; buf = 0x8f5fe88; size = 22
 
  ======= read: 0; 22 bytes ==========
 rrrrrrrrrrrrrrrrrrrrrr
 seek: fd = 0; size = 1000
-read: fd = 0; buf = 0x9be2e88; size = 22
+read: fd = 0; buf = 0x8f5fe88; size = 22
 
  ======= read: 0; 22 bytes ==========
 rrrrrrrrrrrrrrrrrrrrtt
