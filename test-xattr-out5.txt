@@ -5,24 +5,24 @@ open: name = super; flags = 1
 XATTR for super: NUM_XATTR = 0 	  TOTAL_SUM_OF_XATTR_NAMES = 0
 open: name = luper; flags = 2
 XATTR for luper: NUM_XATTR = 0 	  TOTAL_SUM_OF_XATTR_NAMES = 0
-getxattr: fd: 0; attr: security; buf: 0x91ca990, name_size: 8; value_size: 50
-getxattr: error value not found for name security for fd 0
-getxattr: fd: 0; attr: article.author; buf: 0x91ca9c8, name_size: 14; value_size: 50
-getxattr: error value not found for name article.author for fd 0
-getxattr: fd: 1; attr: testing; buf: 0x91caa00, name_size: 7; value_size: 50
-getxattr: error value not found for name testing for fd 1
-getxattr: fd: 1; attr: article.title; buf: 0x91caa38, name_size: 13; value_size: 50
-getxattr: error value not found for name article.title for fd 1
-getxattr: fd: 1; attr: article.venues; buf: 0x91caa70, name_size: 14; value_size: 50
-getxattr: error value not found for name article.venues for fd 1
-getxattr: fd: 2; attr: security; buf: 0x91caaa8, name_size: 8; value_size: 50
-getxattr: error value not found for name security for fd 2
-getxattr: fd: 2; attr: article.author; buf: 0x91caae0, name_size: 14; value_size: 50
-getxattr: error value not found for name article.author for fd 2
-getxattr: fd: 2; attr: article.title; buf: 0x91cab18, name_size: 13; value_size: 50
-getxattr: error value not found for name article.title for fd 2
-getxattr: fd: 2; attr: article.venues; buf: 0x91cab50, name_size: 14; value_size: 650
-getxattr: error value not found for name article.venues for fd 2
+getxattr: fd: 0; attr: security; buf: 0x8270990, name_size: 8; value_size: 50
+security=
+getxattr: fd: 0; attr: article.author; buf: 0x8270990, name_size: 14; value_size: 50
+article.author=
+getxattr: fd: 1; attr: testing; buf: 0x8270990, name_size: 7; value_size: 50
+testing=
+getxattr: fd: 1; attr: article.title; buf: 0x8270990, name_size: 13; value_size: 50
+article.title=
+getxattr: fd: 1; attr: article.venues; buf: 0x8270990, name_size: 14; value_size: 50
+article.venues=
+getxattr: fd: 2; attr: security; buf: 0x8270990, name_size: 8; value_size: 50
+security=
+getxattr: fd: 2; attr: article.author; buf: 0x8270990, name_size: 14; value_size: 50
+article.author=
+getxattr: fd: 2; attr: article.title; buf: 0x8270990, name_size: 13; value_size: 50
+article.title=
+getxattr: fd: 2; attr: article.venues; buf: 0x8270990, name_size: 14; value_size: 650
+article.venues=
 close: 0
 close: 1
 close: 2

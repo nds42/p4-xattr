@@ -898,7 +898,7 @@ int fileGetAttr( unsigned int fd, char *name, char *value, unsigned int name_siz
 			return 0;
         	}
     	}
-	return -1;
+	return 0;
 }
 
 

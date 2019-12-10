@@ -26,14 +26,14 @@ setxattr: succeeded
 setxattr: fd: 2; attr: article.title; value: Innovations in Linux Management; flags: 0x1
 setxattr: failed to set attribute name article.title to Innovations in Linux Management with flags 1 for fd 2
 setxattr: succeeded
-getxattr: fd: 0; attr: article.author; buf: 0x8415990, name_size: 14; value_size: 50
-getxattr: error value not found for name article.author for fd 0
-getxattr: fd: 2; attr: article.author; buf: 0x84159c8, name_size: 14; value_size: 50
-getxattr: error value not found for name article.author for fd 2
-getxattr: fd: 1; attr: article.title; buf: 0x8415a00, name_size: 13; value_size: 50
-getxattr: error value not found for name article.title for fd 1
-getxattr: fd: 2; attr: article.title; buf: 0x8415a38, name_size: 13; value_size: 50
-getxattr: error value not found for name article.title for fd 2
+getxattr: fd: 0; attr: article.author; buf: 0x9eb7990, name_size: 14; value_size: 50
+article.author=
+getxattr: fd: 2; attr: article.author; buf: 0x9eb7990, name_size: 14; value_size: 50
+article.author=
+getxattr: fd: 1; attr: article.title; buf: 0x9eb7990, name_size: 13; value_size: 50
+article.title=
+getxattr: fd: 2; attr: article.title; buf: 0x9eb7990, name_size: 13; value_size: 50
+article.title=
 close: 0
 close: 1
 close: 2

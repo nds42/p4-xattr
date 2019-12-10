@@ -4,8 +4,8 @@ XATTR for luper: NUM_XATTR = 0 	  TOTAL_SUM_OF_XATTR_NAMES = 0
 setxattr: fd: 0; attr: testing; value: basictestvalue; flags: 0x1
 setxattr: failed to set attribute name testing to basictestvalue with flags 1 for fd 0
 setxattr: succeeded
-getxattr: fd: 0; attr: testing; buf: 0x877a890, name_size: 7; value_size: 30
-getxattr: error value not found for name testing for fd 0
+getxattr: fd: 0; attr: testing; buf: 0x8f10890, name_size: 7; value_size: 30
+testing=
 setxattr: fd: 0; attr: article.title; value: Innovations in Window Management; flags: 0x1
 setxattr: failed to set attribute name article.title to Innovations in Window Management with flags 1 for fd 0
 setxattr: succeeded
@@ -15,9 +15,9 @@ setxattr: succeeded
 setxattr: fd: 0; attr: article.venues; value: Newsforge - Los Angeles Times -  Wkhdasgfkhf Yksdjfhgaskjdfhg Blogosphere - rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr - ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss - tttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt - yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy - zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz; flags: 0x1
 setxattr: failed to set attribute name article.venues to Newsforge - Los Angeles Times -  Wkhdasgfkhf Yksdjfhgaskjdfhg Blogosphere - rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr - ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss - tttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt - yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy - zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz with flags 1 for fd 0
 setxattr: succeeded
-getxattr: fd: 0; attr: article.author; buf: 0x877a8b8, name_size: 14; value_size: 50
-getxattr: error value not found for name article.author for fd 0
-getxattr: fd: 0; attr: article.venues; buf: 0x877a8f0, name_size: 14; value_size: 650
-getxattr: error value not found for name article.venues for fd 0
+getxattr: fd: 0; attr: article.author; buf: 0x8f108b8, name_size: 14; value_size: 50
+article.author=
+getxattr: fd: 0; attr: article.venues; buf: 0x8f10890, name_size: 14; value_size: 650
+article.venues=
 close: 0
 ***********  Done *************

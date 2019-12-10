@@ -479,3 +479,31 @@ open: name = duper; flags = 2
 close: 2
 close: 0
 ***********  Done *************
+************ Running commands from file cmd1 on filesystem in file your_fs **********
+creat: name = super; mode = 1
+creat: name = duper; mode = 2
+creat: name = luper; mode = 3
+close: 0
+close: 1
+open: name = duper; flags = 2
+XATTR for duper: NUM_XATTR = 0 	  TOTAL_SUM_OF_XATTR_NAMES = 0
+close: 2
+close: 0
+***********  Done *************
+************ Running commands from file cmd2 on filesystem in file your_fs **********
+open: name = luper; flags = 2
+XATTR for luper: NUM_XATTR = 0 	  TOTAL_SUM_OF_XATTR_NAMES = 0
+write: fd = 0; buf file = data1; unused = 1
+write: fd = 0; buf file = data2; unused = 1
+seek: fd = 0; size = 500
+read: fd = 0; buf = 0x8ef4e88; size = 22
+
+ ======= read: 0; 22 bytes ==========
+rrrrrrrrrrrrrrrrrrrrrr
+seek: fd = 0; size = 1000
+read: fd = 0; buf = 0x8ef4e88; size = 22
+
+ ======= read: 0; 22 bytes ==========
+rrrrrrrrrrrrrrrrrrrrtt
+close: 0
+***********  Done *************

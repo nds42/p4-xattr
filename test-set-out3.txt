@@ -1,13 +1,13 @@
 ************ Running commands from file cmd3.test on filesystem in file test_fs **********
 open: name = luper; flags = 2
 XATTR for luper: NUM_XATTR = 0 	  TOTAL_SUM_OF_XATTR_NAMES = 0
-getxattr: fd: 0; attr: testing; buf: 0x8567890, name_size: 7; value_size: 30
+getxattr: fd: 0; attr: testing; buf: 0x9055890, name_size: 7; value_size: 30
 testing=
-getxattr: fd: 0; attr: article.title; buf: 0x8567890, name_size: 13; value_size: 700
+getxattr: fd: 0; attr: article.title; buf: 0x9055890, name_size: 13; value_size: 700
 article.title=
-getxattr: fd: 0; attr: article.author; buf: 0x8567890, name_size: 14; value_size: 50
+getxattr: fd: 0; attr: article.author; buf: 0x9055890, name_size: 14; value_size: 50
 article.author=
-getxattr: fd: 0; attr: article.venues; buf: 0x8567890, name_size: 14; value_size: 650
+getxattr: fd: 0; attr: article.venues; buf: 0x9055890, name_size: 14; value_size: 650
 article.venues=
 close: 0
 ***********  Done *************

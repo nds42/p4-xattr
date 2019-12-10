@@ -3,25 +3,25 @@ open: name = super; flags = 1
 XATTR for super: NUM_XATTR = 0 	  TOTAL_SUM_OF_XATTR_NAMES = 0
 open: name = luper; flags = 2
 XATTR for luper: NUM_XATTR = 0 	  TOTAL_SUM_OF_XATTR_NAMES = 0
-getxattr: fd: 0; attr: security; buf: 0x944f910, name_size: 8; value_size: 50
-getxattr: error value not found for name security for fd 0
-getxattr: fd: 1; attr: security; buf: 0x944f948, name_size: 8; value_size: 50
-getxattr: error value not found for name security for fd 1
-getxattr: fd: 0; attr: testing; buf: 0x944f980, name_size: 7; value_size: 50
-getxattr: error value not found for name testing for fd 0
-getxattr: fd: 1; attr: testing; buf: 0x944f9b8, name_size: 7; value_size: 50
-getxattr: error value not found for name testing for fd 1
-getxattr: fd: 0; attr: article.title; buf: 0x944f9f0, name_size: 13; value_size: 50
-getxattr: error value not found for name article.title for fd 0
-getxattr: fd: 1; attr: article.title; buf: 0x944fa28, name_size: 13; value_size: 50
-getxattr: error value not found for name article.title for fd 1
-getxattr: fd: 1; attr: article.venues; buf: 0x944fa60, name_size: 14; value_size: 600
-getxattr: error value not found for name article.venues for fd 1
+getxattr: fd: 0; attr: security; buf: 0x9213910, name_size: 8; value_size: 50
+security=
+getxattr: fd: 1; attr: security; buf: 0x9213910, name_size: 8; value_size: 50
+security=
+getxattr: fd: 0; attr: testing; buf: 0x9213910, name_size: 7; value_size: 50
+testing=
+getxattr: fd: 1; attr: testing; buf: 0x9213910, name_size: 7; value_size: 50
+testing=
+getxattr: fd: 0; attr: article.title; buf: 0x9213910, name_size: 13; value_size: 50
+article.title=
+getxattr: fd: 1; attr: article.title; buf: 0x9213910, name_size: 13; value_size: 50
+article.title=
+getxattr: fd: 1; attr: article.venues; buf: 0x9213910, name_size: 14; value_size: 600
+article.venues=
 setxattr: fd: 1; attr: article.venues; value: ; flags: 0x2
 setxattr: failed to set attribute name article.venues to  with flags 2 for fd 1
 setxattr: succeeded
-getxattr: fd: 1; attr: article.venues; buf: 0x944fcc0, name_size: 14; value_size: 50
-getxattr: error value not found for name article.venues for fd 1
+getxattr: fd: 1; attr: article.venues; buf: 0x9213910, name_size: 14; value_size: 50
+article.venues=
 close: 0
 close: 1
 ***********  Done *************
