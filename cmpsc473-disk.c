@@ -558,9 +558,9 @@ int diskSetAttr( unsigned int attr_block, char *name, char *value,
     	dblk = (dblock_t *)disk2addr( fs->base, (block2offset( attr_block )));
     	// TODO We have no way of validating that our xcb is valid and really exists. How can we do this?
 	xcb = (xcb_t *)&dblk->data;   /* convert from blank chars to a structure containing xcb and a bunch of dxattrs - union */
-	
-    	for ( i = 0; i < xcb->no_xattrs; i++ ) 
-	{  
+	// field attr_block will be invalid if block is invalid. 
+    	for ( i = 0; i < xcb->no_xattrs; i++ )
+	{
         	if (xcb->xattrs[i].name != NULL)
        		{
             		char * nameToCompare = (char*) malloc(name_size * sizeof(char));
@@ -696,10 +696,12 @@ int diskGetAttr( unsigned int attr_block, char *name, char *value,
 				    	/* read limit is either size of buffer or distance to end of file */
 					int num_bytes_to_read = min( size, xcb->xattrs[i].value_size);
 
-				    	// TODO Why are we considering the  "distance to end of file" as file->size - fstat->offset? Shouldn't it 						// just be file->size? And, is this relevant to our fileGetAttr call? Or is our "distance to end of file" 						// just the xattr's value size?                    
+				    	// TODO Why are we considering the "distance to end of file" as file->size - fstat->offset? Shouldn't it 						// just be file->size? And, is this relevant to our fileGetAttr call? Or is our "distance to end of file" 						// just the xattr's value size?                    
 				    	/* read limit is either size of buffer or distance to end of file */
 				    	// 	bytes = min( bytes, ( file->size - fstat->offset ));
-
+					// The end of the data is sum of all values that were written.
+					// Need to take the modulus of that because we need a block
+					// Not relevant to fileGetAttr because it should be the value
 
 				    	unsigned int total_bytes_read = 0;                    
 				    	while (total_bytes_read < num_bytes_to_read)
