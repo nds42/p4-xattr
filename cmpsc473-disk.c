@@ -570,8 +570,7 @@ int diskSetAttr( unsigned int attr_block, char *name, char *value,
             		{
 	            		// fstat_t *fstat = fs->proc->fstat_table[fd];
 	            		// file_t *file;
-	            		unsigned int total = 0;
-
+	            		unsigned int total = 0;				
 	            		// write to the file
 	            		/*while ( total < bytes ) {   // more to write
 				    	int index = xcb->xattrs[i].value_offset / (FS_BLOCKSIZE - sizeof(dblock_t));
