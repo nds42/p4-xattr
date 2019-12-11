@@ -560,70 +560,138 @@ int diskSetAttr( unsigned int attr_block, char *name, char *value,
 	xcb = (xcb_t *)&dblk->data;   /* convert from blank chars to a structure containing xcb and a bunch of dxattrs - union */
 	// field attr_block will be invalid if block is invalid. 
 
+    // TODO TODO TODO REPLACE DOUBLE-FOR-LOOP LOGIC WITH TWO CALLS TO diskGetAttr
+
 	for ( i = 0; i < xcb->no_xattrs; i++ )
 	{
-        	if (xcb->xattrs[i].name != NULL)
-       		{
-            		char * nameToCompare = (char*) malloc(name_size * sizeof(char));
-            		memcpy(nameToCompare, xcb->xattrs[i].name, name_size);
-            		if (strcmp(nameToCompare, name) == 0)
-            		{
-	            		// fstat_t *fstat = fs->proc->fstat_table[fd];
-	            		// file_t *file;
-	            		unsigned int total = 0;				
-	            		// write to the file
-	            		while ( total < value_size ) {   // more to write
-				        	int index = xcb->xattrs[i].value_offset / (FS_BLOCKSIZE - sizeof(dblock_t));
-				        	unsigned int block = xcb->value_blocks[index];
-				        	unsigned int block_bytes;
+        
+        if (xcb->xattrs[i].name != NULL)
+        {
+	        char * nameToCompare = (char*) malloc(name_size * sizeof(char));
+	        memcpy(nameToCompare, xcb->xattrs[i].name, name_size);
+	        if (strcmp(nameToCompare, name) == 0)
+	        {
+        		// fstat_t *fstat = fs->proc->fstat_table[fd];
+        		// file_t *file;
+        		unsigned int total = 0;				
+        		// write to the file
+        		while ( total < value_size ) {   // more to write
+                	int index = xcb->xattrs[i].value_offset / (FS_BLOCKSIZE - sizeof(dblock_t));
+                	unsigned int block = xcb->value_blocks[index];
+                	unsigned int block_bytes;
 
-				        	// if block has not been brought into memory, copy it 
-				        	if ( block == BLK_INVALID ) {
-		                    		errorMessage("diskSetAttr: INVALID LOGIC REACHED, NEED TO MODIFY");			                
-		                    		exit(1);			            
-		                    		//block = diskGetBlock( file, index );
-					        	//file->blocks[index] = block;
-		              
-					        	//if ( block == BLK_INVALID ) {
-						    //    errorMessage("fileWrite: Could get block from the disk");
-						    //    return -1;
-					        	//}
-				        	}
+                	// if block has not been brought into memory, copy it 
+                	if ( block == BLK_INVALID ) {
+                    		errorMessage("diskSetAttr: INVALID LOGIC REACHED, NEED TO MODIFY");			                
+                    		exit(1);			            
+                    		//block = diskGetBlock( file, index );
+	                	//file->blocks[index] = block;
+              
+	                	//if ( block == BLK_INVALID ) {
+		            //    errorMessage("fileWrite: Could get block from the disk");
+		            //    return -1;
+	                	//}
+                	}
 
-				        	if ( index >= XATTR_BLOCKS ) {
-			                	errorMessage("diskSetAttr: Max size of value file reached");
-			                	return total;
-		                		}
+                	if ( index >= XATTR_BLOCKS ) {
+                    	errorMessage("diskSetAttr: Max size of value file reached");
+                    	return total;
+                		}
 
-				        	// write to this block 
-				        	// TODO The first argument of diskWrite is a pointer to the offset for the file we are going to write 						
-                            // some info to disk for. Considering we are on a log-based filesystem, this makes sense, since we want 					
-                            // to modify the offset to the newly written location, where the file's data is now stored. However, why 						
-                            // would we pass in a pointer to the file->diskfile->size if we are supposed to be passing in an offset 					
-                            // to modify? Is the offset the disk location of the start of the file?
-				        	// TODO Why is an offset passed into diskWrite as well as a disk_offset?
-				        	block_bytes = diskWrite( &(xcb->size), block, value, value_size, 
-							         xcb->xattrs[i].value_offset, total );
+                	// write to this block 
+                	// TODO The first argument of diskWrite is a pointer to the offset for the file we are going to write 						
+                    // some info to disk for. Considering we are on a log-based filesystem, this makes sense, since we want 					
+                    // to modify the offset to the newly written location, where the file's data is now stored. However, why 						
+                    // would we pass in a pointer to the file->diskfile->size if we are supposed to be passing in an offset 					
+                    // to modify? Is the offset the disk location of the start of the file?
+                	// TODO Why is an offset passed into diskWrite as well as a disk_offset?
+                	block_bytes = diskWrite( &(xcb->size), block, value, value_size, 
+			                 xcb->xattrs[i].value_offset, total );
 
-				        	// update the total written and the file offset as well 
-				        	total += block_bytes; 
-		                		// TODO Mirrored fileWrite by modifying offset by block_bytes, but it really doesn't make sense because
-		                		//      we didn't just write to value_offset
-		                		// TODO Is value_offset an indicator of where the value starts on the disk? or an indicator of where it 					
-                                // ends?
-				        	xcb->xattrs[i].value_offset += block_bytes;
-				        	value += block_bytes;
-	            		}
+                	// update the total written and the file offset as well 
+                	total += block_bytes; 
+                		// TODO Mirrored fileWrite by modifying offset by block_bytes, but it really doesn't make sense because
+                		//      we didn't just write to value_offset
+                		// TODO Is value_offset an indicator of where the value starts on the disk? or an indicator of where it 					
+                        // ends?
+                	xcb->xattrs[i].value_offset += block_bytes;
+                	value += block_bytes;
+        		}
 
-	            		///* update the file's size (if necessary) */
-	            		if ( xcb->xattrs[i].value_offset > xcb->size ) {
-		            		xcb->size = xcb->xattrs[i].value_offset;
-	            		}
-				return 0;
-			}
+        		///* update the file's size (if necessary) */
+        		if ( xcb->xattrs[i].value_offset > xcb->size ) {
+            		xcb->size = xcb->xattrs[i].value_offset;
+        		}
+                // Update number of xattrs
+                xcb->no_xattrs += 1;
+		    }
+            // Successfully set already-existing attribute
+            return 0;
 		}
 	}
-	return -1;
+    // Got through for loop without finding xattr to replace, so we will now
+    //create the xattr at index i within xcb->xattrs[] t 
+    
+// TODO NEED TO INITIALIZE THE XATTRS VALUES WHEN WE CREATE A NEW XATTR, SEE END OF GIANT PIAZZA POST ON LINE 770
+    xcb->xattrs[i].name = (char*) malloc(name_size * sizeof(char));
+    xcb->xattrs[CORRECT POINTER ARITHMETIC FROM PIAZA POST].name = CURRENT POINTER INTO GIANT MEMORY BLOCK
+        
+    memcpy(xcb->xattrs[i].name, name, name_size);
+	// fstat_t *fstat = fs->proc->fstat_table[fd];
+	// file_t *file;
+	unsigned int total = 0;				
+	// write to the file
+	while ( total < value_size ) {   // more to write
+    	int index = xcb->xattrs[i].value_offset / (FS_BLOCKSIZE - sizeof(dblock_t));
+    	unsigned int block = xcb->value_blocks[index];
+    	unsigned int block_bytes;
+
+    	// if block has not been brought into memory, copy it 
+    	if ( block == BLK_INVALID ) {
+        		errorMessage("diskSetAttr: INVALID LOGIC REACHED, NEED TO MODIFY");			                
+        		exit(1);			            
+        		//block = diskGetBlock( file, index );
+        	//file->blocks[index] = block;
+  
+        	//if ( block == BLK_INVALID ) {
+        //    errorMessage("fileWrite: Could get block from the disk");
+        //    return -1;
+        	//}
+    	}
+
+    	if ( index >= XATTR_BLOCKS ) {
+        	errorMessage("diskSetAttr: Max size of value file reached");
+        	return total;
+    		}
+
+    	// write to this block 
+    	// TODO The first argument of diskWrite is a pointer to the offset for the file we are going to write 						
+        // some info to disk for. Considering we are on a log-based filesystem, this makes sense, since we want 					
+        // to modify the offset to the newly written location, where the file's data is now stored. However, why 						
+        // would we pass in a pointer to the file->diskfile->size if we are supposed to be passing in an offset 					
+        // to modify? Is the offset the disk location of the start of the file?
+    	// TODO Why is an offset passed into diskWrite as well as a disk_offset?
+    	block_bytes = diskWrite( &(xcb->size), block, value, value_size, 
+                 xcb->xattrs[i].value_offset, total );
+
+    	// update the total written and the file offset as well 
+    	total += block_bytes; 
+    		// TODO Mirrored fileWrite by modifying offset by block_bytes, but it really doesn't make sense because
+    		//      we didn't just write to value_offset
+    		// TODO Is value_offset an indicator of where the value starts on the disk? or an indicator of where it 					
+            // ends?
+    	xcb->xattrs[i].value_offset += block_bytes;
+    	value += block_bytes;
+	}
+
+	///* update the file's size (if necessary) */
+	if ( xcb->xattrs[i].value_offset > xcb->size ) {
+		xcb->size = xcb->xattrs[i].value_offset;
+	}
+    
+    // Update number of xattrs
+    xcb->no_xattrs += 1;
+	return 0;
 }
 
 /*
@@ -676,6 +744,37 @@ int diskGetAttr( unsigned int attr_block, char *name, char *value,
 
 	for ( i = 0; i < xcb->no_xattrs; i++ ) 
 	{  
+        // TODO RESPOND TO PIAZZA POST ABOUT xattrs[] POINTER ARITHMETIC
+        //      By using pointer arithmetic, are you saying that each
+        //      array entry in xcb->xattrs is actually of a different size?
+        //      From a bit of reading on stack overflow, it looks like the 
+        //      c idiom of automatically allocated arrays of size zero is
+        //      used to create variable length structs that are still a
+        //      contiguous block of memory. This would mean that the entire
+        //      xcb struct and its array of xattrs would be one giant block
+        //      of contiguous memory. [[ NON CRITICAL : I don't think we would have to reallocate
+        //      memory for the xcb_t struct in our programs when we get more
+        //      dxattrs_t's in our xattrs[] array because the memory all gets
+        //      allocated at the beginning from our giant pool of disk memory. ]]
+        //      However, the dxattr_t struct itself is of variable size because
+        //      its name is also an automatically allocated array of length 0.
+        //      Does this mean that indexing into the xcb's array of xattrs will
+        //      no longer be possible using the standard C array indexing notation?
+        //      It seems like we would have to use pointer arithmetic as you mentioned,
+        //      indexing into our pointer xattrs by the size of the dxattr_t struct
+        //      and the additional size of the name retrieved from the beginning of 
+        //      the dxattr_t struct.
+        //      Will we be making extensive use of the disk2addr function here to
+        //      facilitate this pointer arithmetic, or is there another approach that will
+        //      allow for more simplified abstractions? 
+        //      Also, will allocating space for new xattrs and xattr names just mean providing an index
+        //      into the next available space in the giant block allocated for the xcb? I don't
+        //      think a malloc would make sense.
+        //      OVERALL PROCESS TO ITERATE INTO the xcb's xattrs array
+        //      for i in no_xattrs
+        //          name_size = (*xattrs).name_size
+        //          // Do something with current xattr
+        //          xattrs = xattrs + sizeof(dxattr) + name_size;
         	if (xcb->xattrs[i].name != NULL)
        		{
             		char * nameToCompare = (char*) malloc(name_size * sizeof(char));
