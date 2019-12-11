@@ -560,7 +560,7 @@ int diskSetAttr( unsigned int attr_block, char *name, char *value,
 	xcb = (xcb_t *)&dblk->data;   /* convert from blank chars to a structure containing xcb and a bunch of dxattrs - union */
 	// field attr_block will be invalid if block is invalid. 
 
-    // TODO TODO TODO REPLACE DOUBLE-FOR-LOOP LOGIC WITH TWO CALLS TO diskGetAttr
+    	// TODO TODO TODO REPLACE DOUBLE-FOR-LOOP LOGIC WITH TWO CALLS TO diskGetAttr
 
 	for ( i = 0; i < xcb->no_xattrs; i++ )
 	{
@@ -633,10 +633,10 @@ int diskSetAttr( unsigned int attr_block, char *name, char *value,
     //create the xattr at index i within xcb->xattrs[] t 
     
 // TODO NEED TO INITIALIZE THE XATTRS VALUES WHEN WE CREATE A NEW XATTR, SEE END OF GIANT PIAZZA POST ON LINE 770
-    xcb->xattrs[i].name = (char*) malloc(name_size * sizeof(char));
-    xcb->xattrs[CORRECT POINTER ARITHMETIC FROM PIAZA POST].name = CURRENT POINTER INTO GIANT MEMORY BLOCK
+    	//xcb->xattrs[i].name = (char*) malloc(name_size * sizeof(char));
+    	//xcb->xattrs[CORRECT POINTER ARITHMETIC FROM PIAZA POST].name = CURRENT POINTER INTO GIANT MEMORY BLOCK
         
-    memcpy(xcb->xattrs[i].name, name, name_size);
+    	memcpy(xcb->xattrs[i].name, name, name_size);
 	// fstat_t *fstat = fs->proc->fstat_table[fd];
 	// file_t *file;
 	unsigned int total = 0;				
