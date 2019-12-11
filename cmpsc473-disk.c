@@ -644,7 +644,7 @@ int diskSetAttr( unsigned int attr_block, char *name, char *value,
 		// file_t *file;
 		unsigned int total = 0;
 		// write to the file
-		while ( total < value_size ) {   // more to write
+		//while ( total < value_size ) {   // more to write
     		int index = xcb->xattrs[i].value_offset / (FS_BLOCKSIZE - sizeof(dblock_t));
     		unsigned int block = xcb->value_blocks[index];
     		unsigned int block_bytes;
