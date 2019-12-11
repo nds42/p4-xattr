@@ -560,7 +560,7 @@ int diskSetAttr( unsigned int attr_block, char *name, char *value,
 	xcb = (xcb_t *)&dblk->data;   /* convert from blank chars to a structure containing xcb and a bunch of dxattrs - union */
 	// field attr_block will be invalid if block is invalid. 
 
-    	for ( i = 0; i < xcb->no_xattrs; i++ )
+	for ( i = 0; i < xcb->no_xattrs; i++ )
 	{
         	if (xcb->xattrs[i].name != NULL)
        		{
@@ -572,54 +572,58 @@ int diskSetAttr( unsigned int attr_block, char *name, char *value,
 	            		// file_t *file;
 	            		unsigned int total = 0;				
 	            		// write to the file
-	            		/*while ( total < bytes ) {   // more to write
-				    	int index = xcb->xattrs[i].value_offset / (FS_BLOCKSIZE - sizeof(dblock_t));
-				    	unsigned int block = xcb->value_blocks[value_block_index];
-				    	unsigned int block_bytes;
+	            		while ( total < value_size ) {   // more to write
+				        	int index = xcb->xattrs[i].value_offset / (FS_BLOCKSIZE - sizeof(dblock_t));
+				        	unsigned int block = xcb->value_blocks[index];
+				        	unsigned int block_bytes;
 
-				    	// if block has not been brought into memory, copy it 
-				    	if ( block == BLK_INVALID ) {
-		                		errorMessage("diskSetAttr: INVALID LOGIC REACHED, NEED TO
-								MODIFY");			                
-		                		exit(1);			            
-		                		//block = diskGetBlock( file, index );
-					    	//file->blocks[index] = block;
-		          
-					    	//if ( block == BLK_INVALID ) {
-						//    errorMessage("fileWrite: Could get block from the disk");
-						//    return -1;
-					    	//}
-				    	}
+				        	// if block has not been brought into memory, copy it 
+				        	if ( block == BLK_INVALID ) {
+		                    		errorMessage("diskSetAttr: INVALID LOGIC REACHED, NEED TO MODIFY");			                
+		                    		exit(1);			            
+		                    		//block = diskGetBlock( file, index );
+					        	//file->blocks[index] = block;
+		              
+					        	//if ( block == BLK_INVALID ) {
+						    //    errorMessage("fileWrite: Could get block from the disk");
+						    //    return -1;
+					        	//}
+				        	}
 
-				    	if ( index >= XATTR_BLOCKS ) {
-			            	errorMessage("diskSetAttr: Max size of value file reached");
-			            	return total;
-		            		}
+				        	if ( index >= XATTR_BLOCKS ) {
+			                	errorMessage("diskSetAttr: Max size of value file reached");
+			                	return total;
+		                		}
 
-				    	// write to this block 
-				    	// TODO The first argument of diskWrite is a pointer to the offset for the file we are going to write 						// some info to disk for. Considering we are on a log-based filesystem, this makes sense, since we want 					// to modify the offset to the newly written location, where the file's data is now stored. However, why 						// would we pass in a pointer to the file->diskfile->size if we are supposed to be passing in an offset 					// to modify? Is the offset the disk location of the start of the file?
-				    	// TODO Why is an offset passed into diskWrite as well as a disk_offset?
-				    	// block_bytes = diskWrite( &(xcb->size), block, value, value_size, 
-							     xcb->xattrs[i].value_offset, total );
+				        	// write to this block 
+				        	// TODO The first argument of diskWrite is a pointer to the offset for the file we are going to write 						
+                            // some info to disk for. Considering we are on a log-based filesystem, this makes sense, since we want 					
+                            // to modify the offset to the newly written location, where the file's data is now stored. However, why 						
+                            // would we pass in a pointer to the file->diskfile->size if we are supposed to be passing in an offset 					
+                            // to modify? Is the offset the disk location of the start of the file?
+				        	// TODO Why is an offset passed into diskWrite as well as a disk_offset?
+				        	block_bytes = diskWrite( &(xcb->size), block, value, value_size, 
+							         xcb->xattrs[i].value_offset, total );
 
-				    	// update the total written and the file offset as well 
-				    	total += block_bytes; 
-		            		// TODO Mirrored fileWrite by modifying offset by block_bytes, but it really doesn't make sense because
-		            		//      we didn't just write to value_offset
-		            		// TODO Is value_offset an indicator of where the value starts on the disk? or an indicator of where it 					// ends?
-				    	xcb->xattrs[i].value_offset += block_bytes;
-				    	value += block_bytes;
-	            		}*/
+				        	// update the total written and the file offset as well 
+				        	total += block_bytes; 
+		                		// TODO Mirrored fileWrite by modifying offset by block_bytes, but it really doesn't make sense because
+		                		//      we didn't just write to value_offset
+		                		// TODO Is value_offset an indicator of where the value starts on the disk? or an indicator of where it 					
+                                // ends?
+				        	xcb->xattrs[i].value_offset += block_bytes;
+				        	value += block_bytes;
+	            		}
 
 	            		///* update the file's size (if necessary) */
 	            		if ( xcb->xattrs[i].value_offset > xcb->size ) {
 		            		xcb->size = xcb->xattrs[i].value_offset;
 	            		}
-				return total;
+				return 0;
 			}
 		}
 	}
-	return 0;
+	return -1;
 }
 
 /*
@@ -647,6 +651,11 @@ int diskGetAttr( unsigned int attr_block, char *name, char *value,
 	/* IMPLEMENT THIS */
 
 	//unsigned int = sizeof(dblock_t) + sizeof(xcb_t);
+    	//char * buf = (char*) malloc(
+    	//unsigned int bytes_read = diskRead(attr_block, char *buf, unsigned int bytes, 
+	//	       unsigned int offset, unsigned int sofar )
+
+    	//unsigned int = sizeof(dblock_t) + sizeof(xcb_t);
     	//char * buf = (char*) malloc(
     	//unsigned int bytes_read = diskRead(attr_block, char *buf, unsigned int bytes, 
 	//	       unsigned int offset, unsigned int sofar )
@@ -684,68 +693,69 @@ int diskGetAttr( unsigned int attr_block, char *name, char *value,
 				    	unsigned int xattr_value_offset = xcb->xattrs[i].value_offset;
 				    	char * buf = (char*) malloc(size*sizeof(char));
 					// The answer to these questions in piazza was not specific enough. Need more of a concrete answer.
-				    	// TODO How can we read values that span multiple blocks using diskRead?
+				    	// TODO PROBABLY RESOLVED How can we read values that span multiple blocks using diskRead?
 				    	//      Will this just rely on us manually calculating the individual parts of each block
 				    	//      that will be read? (e.g. For a diskGetAttr requesting an 800 byte value, doing 
 				    	//      one diskRead on the last 200 bytes of the first value_block starting from the computed offset,
 				    	//      then another disk_read on the first 600 bytes of the next value block,
 				    	//      memcpy'ing each diskRead separately into a buffer of the desired size 800)
-				    	// TODO Also, is the value_offset data member a memory offset into the overall value_blocks
+				    	// TODO RESOLVED Also, is the value_offset data member a memory offset into the overall value_blocks
 				    	//      series of contiguous memory blocks, or is it an offset only in the current value_block
 				    	//      that the dxattr_t's value is a part of? If the latter is true, what other indicators exist
 				    	//      to denote the value_block that the dxattr_t is a part of? 
 				    
 				    	/* read limit is either size of buffer or distance to end of file */
-					int num_bytes_to_read = min( size, xcb->xattrs[i].value_size);
+					    int num_bytes_to_read = min( size, xcb->xattrs[i].value_size);
 
-				    	// TODO Why are we considering the "distance to end of file" as file->size - fstat->offset? Shouldn't it 						// just be file->size? And, is this relevant to our fileGetAttr call? Or is our "distance to end of file" 						// just the xattr's value size?                    
+				    	// TODO RESOLVED Why are we considering the "distance to end of file" as file->size - fstat->offset? Shouldn't it 						
+                        // just be file->size? And, is this relevant to our fileGetAttr call? Or is our "distance to end of file" 						
+                        // just the xattr's value size?                    
 				    	/* read limit is either size of buffer or distance to end of file */
 				    	// 	bytes = min( bytes, ( file->size - fstat->offset ));
 					
-					// Professor's answer: The end of the data is sum of all values that were written.
-					// Need to take the modulus of that because we need a block
-					// Not relevant to fileGetAttr because it should be the value
+					    // Professor's answer: The end of the data is sum of all values that were written.
+					    // Need to take the modulus of that because we need a block
+					    // Not relevant to fileGetAttr because it should be the value
 
 				    	unsigned int total_bytes_read = 0;                    
 				    	while (total_bytes_read < num_bytes_to_read)
 				    	{
 				        	value_block_index = xattr_value_offset / (FS_BLOCKSIZE - sizeof(dblock_t));
-						value_block = xcb->value_blocks[value_block_index];
+						    value_block = xcb->value_blocks[value_block_index];
 
-				        	/* if block has not been brought into memory, copy it */
-						/*if ( value_block == BLK_INVALID ) {
-				            		errorMessage("diskGetAttr: INVALID LOGIC REACHED, NEED TO 
-										MODIFY");			                
-				            		value_block = diskGetBlock( file, index );
-							//file->blocks[index] = block;
-				      
-							if ( block == BLK_INVALID ) {
-								errorMessage("fileRead: Could get block from the disk");
-								return -1;
-							}
-						}
+				            	/* if block has not been brought into memory, copy it */
+						    if ( value_block == BLK_INVALID ) {
+				                		errorMessage("diskGetAttr: INVALID LOGIC REACHED, NEED TO MODIFY");			                
+				                		// value_block = diskGetBlock( file, index );
+							    //file->blocks[index] = block;
+				          
+							    if ( value_block == BLK_INVALID ) {
+								    errorMessage("fileRead: Could get block from the disk");
+								    return -1;
+							    }
+						    }
 
-						if ( value_block_index >= XATTR_BLOCKS ) {
-							errorMessage("diskGetAttr: Max size of value file reached");
-							return -1;
-						}*/
+						    if ( value_block_index >= XATTR_BLOCKS ) {
+							    errorMessage("diskGetAttr: Max size of value file reached");
+							    return -1;
+						    }
 
-						/* read this block */
-				        	unsigned int bytes_read = diskRead(value_block, buf, num_bytes_to_read, xattr_value_offset, 
-										total_bytes_read);                        
+						    /* read this block */
+				            	unsigned int bytes_read = diskRead(value_block, buf, num_bytes_to_read, xattr_value_offset, 
+										    total_bytes_read);                        
 
-						/* update the total written and the file offset as well */
-						total_bytes_read += bytes_read;
-
-						xattr_value_offset += bytes_read;
-						buf += bytes_read;
+						    /* update the total written and the file offset as well */
+						    total_bytes_read += bytes_read;
+                            // TODO Change this to modify xcb->xattrs[i].value_offset if this doesn't work
+						    xattr_value_offset += bytes_read;
+						    buf += bytes_read;
 				    	}
 				    	return total_bytes_read;
                 		}
             		}
         	}
 	}
-    	return 0;
+    	return -1;
 }
 //typedef struct dxattr {
 //	unsigned int name_size;        /* length of name string in bytes */

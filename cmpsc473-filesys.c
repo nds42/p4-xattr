@@ -792,6 +792,72 @@ int fileSetAttr( unsigned int fd, char *name, char *value, unsigned int name_siz
 		errorMessage("fileSetAttr: No file corresponds to fstat");
 		return -1;
 	}
+    unsigned int attr_block = file->attr_block;
+    if (attr_block == BLK_INVALID)
+    {
+        attr_block = diskGetAttrBlock(file, BLOCK_CREATE);
+    }
+    //else
+    //{
+    int attr_found = diskGetAttr(attr_block, name, NULL, name_size, -1, 1);
+    if ( attr_found == 1 && flags == XATTR_CREATE)
+    {
+        errorMessage("fileSetAttr: (Flags incorrect) Tried to replace attribute when called with flag XATTR_CREATE");
+	    return -1;
+    }
+    else if ( attr_found == -1 && flags == XATTR_REPLACE)
+    {
+        errorMessage("fileSetAttr: (Flags incorrect) Tried to create attribute when called with flag XATTR_REPLACE");
+	    return -1;
+    }
+    else
+    {
+        int attr_set = diskSetAttr(attr_block, name, value, name_size, value_size);
+        if (attr_set == -1 && flags == XATTR_CREATE)
+        {
+            errorMessage("fileSetAttr: Could not set attribute (XATTR_CREATE)");
+	        return -1;
+        }
+        else if (attr_set == -1 && flags == XATTR_REPLACE)
+        {
+            errorMessage("fileSetAttr: Could not set attribute (XATTR_REPLACE)");
+	        return -1;
+        }
+        else if (attr_set == 0) // Success
+        {
+            dblock_t *dblk;
+            xcb_t *xcb;
+        	dblk = (dblock_t *)disk2addr( fs->base, (block2offset( attr_block )));
+            xcb = (xcb_t *)&dblk->data;   /* convert from blank chars to a structure containing xcb and a bunch of dxattrs - union */
+            //* update the file's size (if necessary) */
+            if (xcb->size > file->size ) {
+        		file->size = xcb->size;
+            }
+            return 0;
+        }
+        else
+        {
+            // Something went wrong
+            errorMessage("fileSetAttr: Unexpected return value");
+	        return -1;
+        }
+    }
+    //}
+
+	/*fstat_t *fstat = fs->proc->fstat_table[fd];
+	file_t *file;
+	
+	if ( fstat == NULL ) {
+		errorMessage("fileSetAttr: No file corresponds to fd");
+		return -1;
+	}
+
+	file = fstat->file;
+
+	if ( file == NULL ) {
+		errorMessage("fileSetAttr: No file corresponds to fstat");
+		return -1;
+	}
     	unsigned int attr_block = file->attr_block;
     	if (attr_block == BLK_INVALID)
     	{
@@ -829,7 +895,7 @@ int fileSetAttr( unsigned int fd, char *name, char *value, unsigned int name_siz
             		}
         	}
     	}
-	return -1;
+	return -1;*/
 }
 
 /*
@@ -875,6 +941,48 @@ int fileGetAttr( unsigned int fd, char *name, char *value, unsigned int name_siz
 		errorMessage("fileGetAttr: No file corresponds to fstat");
 		return -1;
 	}
+    unsigned int attr_block = file->attr_block;
+    if (attr_block == BLK_INVALID)
+    {
+        attr_block = diskGetAttrBlock(file, BLOCK_CREATE);
+    }
+    //else
+    //{
+    int attr_found = diskGetAttr(attr_block, name, NULL, name_size, -1, 1);
+    if ( attr_found == 1)
+    {
+        int bytes_read = diskGetAttr(attr_block, name, value, name_size, size, 0);
+        if (bytes_read == 0)
+        {
+            errorMessage("fileGetAttr:bytes_read was 0");
+        }
+        else if (bytes_read < 0)
+        {
+            errorMessage("fileGetAttr: Standard call to diskGetAttr couldn't find attr of specified name");
+        }
+        return bytes_read;
+    }
+    else 
+    {
+        errorMessage("fileGetAttr: Couldn't find attr file of the specified name");
+	    return 0;
+    }
+    //}
+
+	/*fstat_t *fstat = fs->proc->fstat_table[fd];
+	file_t *file;
+	
+	if ( fstat == NULL ) {
+		errorMessage("fileGetAttr: No file corresponds to fd");
+		return -1;
+	}
+
+	file = fstat->file;
+
+	if ( file == NULL ) {
+		errorMessage("fileGetAttr: No file corresponds to fstat");
+		return -1;
+	}
     	unsigned int attr_block = file->attr_block;
     	if (attr_block == BLK_INVALID)
     	{
@@ -895,10 +1003,10 @@ int fileGetAttr( unsigned int fd, char *name, char *value, unsigned int name_siz
         	else 
         	{
             		errorMessage("fileGetAttr:Couldn't find attr file");
-			return 0;
+			return -1;
         	}
     	}
-	return 0;
+	return 0;*/
 }
 
 
