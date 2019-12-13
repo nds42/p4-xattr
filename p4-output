@@ -11,12 +11,12 @@ open: name = luper; flags = 2
 write: fd = 0; buf file = data1; unused = 1
 write: fd = 0; buf file = data2; unused = 1
 seek: fd = 0; size = 500
-read: fd = 0; buf = 0x95cfe08; size = 22
+read: fd = 0; buf = 0x9bfae08; size = 22
 
  ======= read: 0; 22 bytes ==========
 
 seek: fd = 0; size = 1000
-read: fd = 0; buf = 0x95cfe08; size = 22
+read: fd = 0; buf = 0x9bfae08; size = 22
 
  ======= read: 0; 22 bytes ==========
 
