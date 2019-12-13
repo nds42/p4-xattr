@@ -1,26 +1,26 @@
+CMPSC473 Error: fileGetAttr:bytes_read was 0
 ************ Running commands from file cmd5 on filesystem in file test_fs **********
 open: name = super; flags = 1
-XATTR for super: NUM_XATTR = 0 	  TOTAL_SUM_OF_XATTR_NAMES = 0
+XATTR for super: NUM_XATTR = 3 	  TOTAL_SUM_OF_XATTR_NAMES = 28
 open: name = luper; flags = 2
-XATTR for luper: NUM_XATTR = 0 	  TOTAL_SUM_OF_XATTR_NAMES = 0
-getxattr: fd: 0; attr: security; buf: 0x9213910, name_size: 8; value_size: 50
+XATTR for luper: NUM_XATTR = 5 	  TOTAL_SUM_OF_XATTR_NAMES = 56
+getxattr: fd: 0; attr: security; buf: 0x9c3d910, name_size: 8; value_size: 50
 security=
-getxattr: fd: 1; attr: security; buf: 0x9213910, name_size: 8; value_size: 50
+getxattr: fd: 1; attr: security; buf: 0x9c3d910, name_size: 8; value_size: 50
 security=
-getxattr: fd: 0; attr: testing; buf: 0x9213910, name_size: 7; value_size: 50
+getxattr: fd: 0; attr: testing; buf: 0x9c3d910, name_size: 7; value_size: 50
 testing=
-getxattr: fd: 1; attr: testing; buf: 0x9213910, name_size: 7; value_size: 50
+getxattr: fd: 1; attr: testing; buf: 0x9c3d910, name_size: 7; value_size: 50
 testing=
-getxattr: fd: 0; attr: article.title; buf: 0x9213910, name_size: 13; value_size: 50
+getxattr: fd: 0; attr: article.title; buf: 0x9c3d910, name_size: 13; value_size: 50
 article.title=
-getxattr: fd: 1; attr: article.title; buf: 0x9213910, name_size: 13; value_size: 50
+getxattr: fd: 1; attr: article.title; buf: 0x9c3d910, name_size: 13; value_size: 50
 article.title=
-getxattr: fd: 1; attr: article.venues; buf: 0x9213910, name_size: 14; value_size: 600
+getxattr: fd: 1; attr: article.venues; buf: 0x9c3db58, name_size: 14; value_size: 600
 article.venues=
 setxattr: fd: 1; attr: article.venues; value: ; flags: 0x2
-setxattr: failed to set attribute name article.venues to  with flags 2 for fd 1
 setxattr: succeeded
-getxattr: fd: 1; attr: article.venues; buf: 0x9213910, name_size: 14; value_size: 50
+getxattr: fd: 1; attr: article.venues; buf: 0x9c3dc18, name_size: 14; value_size: 50
 article.venues=
 close: 0
 close: 1

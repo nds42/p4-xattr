@@ -1,38 +1,36 @@
+CMPSC473 Error: fileSetAttr: (Flags incorrect) Tried to create attribute when called with flag XATTR_REPLACE
+CMPSC473 Error: fileSetAttr: (Flags incorrect) Tried to replace attribute %s when called with flag XATTR_CREATE
+CMPSC473 Error: fileGetAttr: Couldn't find attr file of the specified name
 ************ Running commands from file cmd4 on filesystem in file test_fs **********
 open: name = duper; flags = 2
 XATTR for duper: NUM_XATTR = 0 	  TOTAL_SUM_OF_XATTR_NAMES = 0
 open: name = super; flags = 1
 XATTR for super: NUM_XATTR = 0 	  TOTAL_SUM_OF_XATTR_NAMES = 0
 open: name = luper; flags = 2
-XATTR for luper: NUM_XATTR = 0 	  TOTAL_SUM_OF_XATTR_NAMES = 0
+XATTR for luper: NUM_XATTR = 4 	  TOTAL_SUM_OF_XATTR_NAMES = 48
 setxattr: fd: 0; attr: security; value: user_u:sysadm_r:duper_t; flags: 0x1
-setxattr: failed to set attribute name security to user_u:sysadm_r:duper_t with flags 1 for fd 0
 setxattr: succeeded
 setxattr: fd: 1; attr: security; value: user_u:sysadm_r:super_t; flags: 0x1
-setxattr: failed to set attribute name security to user_u:sysadm_r:super_t with flags 1 for fd 1
 setxattr: succeeded
 setxattr: fd: 2; attr: security; value: user_u:sysadm_r:init_t; flags: 0x1
-setxattr: failed to set attribute name security to user_u:sysadm_r:init_t with flags 1 for fd 2
 setxattr: succeeded
 setxattr: fd: 1; attr: testing; value: this is still a test; flags: 0x1
-setxattr: failed to set attribute name testing to this is still a test with flags 1 for fd 1
 setxattr: succeeded
 setxattr: fd: 1; attr: article.title; value: Innovations in Linux Management; flags: 0x1
-setxattr: failed to set attribute name article.title to Innovations in Linux Management with flags 1 for fd 1
 setxattr: succeeded
 setxattr: fd: 0; attr: article.author; value: Wk Yksdjfhgaskjdfhg; flags: 0x2
 setxattr: failed to set attribute name article.author to Wk Yksdjfhgaskjdfhg with flags 2 for fd 0
 setxattr: succeeded
 setxattr: fd: 2; attr: article.title; value: Innovations in Linux Management; flags: 0x1
-setxattr: failed to set attribute name article.title to Innovations in Linux Management with flags 1 for fd 2
+fileSetAttr: (Flags incorrect) Tried to replace attribute article.title when called with flag XATTR_CREATEsetxattr: failed to set attribute name article.title to Innovations in Linux Management with flags 1 for fd 2
 setxattr: succeeded
-getxattr: fd: 0; attr: article.author; buf: 0x9eb7990, name_size: 14; value_size: 50
+getxattr: fd: 0; attr: article.author; buf: 0x8f8cad8, name_size: 14; value_size: 50
 article.author=
-getxattr: fd: 2; attr: article.author; buf: 0x9eb7990, name_size: 14; value_size: 50
+getxattr: fd: 2; attr: article.author; buf: 0x8f8cad8, name_size: 14; value_size: 50
 article.author=
-getxattr: fd: 1; attr: article.title; buf: 0x9eb7990, name_size: 13; value_size: 50
+getxattr: fd: 1; attr: article.title; buf: 0x8f8cad8, name_size: 13; value_size: 50
 article.title=
-getxattr: fd: 2; attr: article.title; buf: 0x9eb7990, name_size: 13; value_size: 50
+getxattr: fd: 2; attr: article.title; buf: 0x8f8cad8, name_size: 13; value_size: 50
 article.title=
 close: 0
 close: 1
