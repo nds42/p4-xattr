@@ -1,31 +1,24 @@
 CMPSC473 Error: fileOpen: No such file on disk
-CMPSC473 Error: fileSetAttr: No file corresponds to fd
-CMPSC473 Error: fileGetAttr: No file corresponds to fd
-CMPSC473 Error: fileSetAttr: No file corresponds to fd
-CMPSC473 Error: fileSetAttr: No file corresponds to fd
-CMPSC473 Error: fileSetAttr: No file corresponds to fd
-CMPSC473 Error: fileGetAttr: No file corresponds to fd
-CMPSC473 Error: fileGetAttr: No file corresponds to fd
+CMPSC473 Error: fileWrite: No file corresponds to fd
+CMPSC473 Error: fileWrite: No file corresponds to fd
+CMPSC473 Error: fileSeek: No file corresponds to fd
+CMPSC473 Error: fileRead: No file corresponds to fd
+CMPSC473 Error: fileSeek: No file corresponds to fd
+CMPSC473 Error: fileRead: No file corresponds to fd
 CMPSC473 Error: fileClose: No file corresponds to fd
-************ Running commands from file cmd3 on filesystem in file your_fs **********
+************ Running commands from file cmd2 on filesystem in file your_fs **********
 open: name = luper; flags = 2
-setxattr: fd: 0; attr: testing; value: basictestvalue; flags: 0x1
-setxattr: failed to set attribute name testing to basictestvalue with flags 1 for fd 0
-setxattr: succeeded
-getxattr: fd: 0; attr: testing; buf: 0x9179810, name_size: 7; value_size: 30
-getxattr: error value not found for name testing for fd 0
-setxattr: fd: 0; attr: article.title; value: Innovations in Window Management; flags: 0x1
-setxattr: failed to set attribute name article.title to Innovations in Window Management with flags 1 for fd 0
-setxattr: succeeded
-setxattr: fd: 0; attr: article.author; value: Wkhdasgfkhf Yksdjfhgaskjdfhg; flags: 0x1
-setxattr: failed to set attribute name article.author to Wkhdasgfkhf Yksdjfhgaskjdfhg with flags 1 for fd 0
-setxattr: succeeded
-setxattr: fd: 0; attr: article.venues; value: Newsforge - Los Angeles Times -  Wkhdasgfkhf Yksdjfhgaskjdfhg Blogosphere - rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr - ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss - tttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt - yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy - zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz; flags: 0x1
-setxattr: failed to set attribute name article.venues to Newsforge - Los Angeles Times -  Wkhdasgfkhf Yksdjfhgaskjdfhg Blogosphere - rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr - ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss - tttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt - yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy - zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz with flags 1 for fd 0
-setxattr: succeeded
-getxattr: fd: 0; attr: article.author; buf: 0x9179838, name_size: 14; value_size: 50
-getxattr: error value not found for name article.author for fd 0
-getxattr: fd: 0; attr: article.venues; buf: 0x9179870, name_size: 14; value_size: 650
-getxattr: error value not found for name article.venues for fd 0
+write: fd = 0; buf file = data1; unused = 1
+write: fd = 0; buf file = data2; unused = 1
+seek: fd = 0; size = 500
+read: fd = 0; buf = 0x95cfe08; size = 22
+
+ ======= read: 0; 22 bytes ==========
+
+seek: fd = 0; size = 1000
+read: fd = 0; buf = 0x95cfe08; size = 22
+
+ ======= read: 0; 22 bytes ==========
+
 close: 0
 ***********  Done *************
