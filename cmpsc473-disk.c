@@ -561,9 +561,10 @@ int diskSetAttr( unsigned int attr_block, char *name, char *value,
 	xcb_t *xcb;
 	int i;
 	dblk = (dblock_t *)disk2addr( fs->base, (block2offset( attr_block )));
-    xcb = (xcb_t *)&dblk->data;
+    	xcb = (xcb_t *)&dblk->data;
 	// set xcb->no_xattrs to 0
-    char * xattr_ptr = (char *) (xcb->xattrs);
+    	char * xattr_ptr = (char *) (xcb->xattrs);
+	xcb->no_xattrs = 0;
 	for ( i = 0; i < xcb->no_xattrs; i++ )
 	{
 		if (((dxattr_t*)xattr_ptr)->name != NULL)
@@ -574,10 +575,10 @@ int diskSetAttr( unsigned int attr_block, char *name, char *value,
 			{
 				unsigned int total = 0;
 				((dxattr_t*)xattr_ptr)->value_offset = xcb->size;
-                unsigned int current_write_offset = ((dxattr_t*)xattr_ptr)->value_offset;
+                		unsigned int current_write_offset = ((dxattr_t*)xattr_ptr)->value_offset;
 				while ( total < value_size ) {   // more to write
 		        	// int index = ((dxattr_t*)xattr_ptr)->value_offset / (FS_BLOCKSIZE - sizeof(dblock_t));
-                    int index = current_write_offset / (FS_BLOCKSIZE - sizeof(dblock_t));
+                    		int index = current_write_offset / (FS_BLOCKSIZE - sizeof(dblock_t));
 		        	unsigned int block = xcb->value_blocks[index];
 		        	unsigned int block_bytes;
 
@@ -631,16 +632,15 @@ int diskSetAttr( unsigned int attr_block, char *name, char *value,
     		// Got through for loop without finding xattr to replace, so we will now
     		//create the xattr at index i within xcb->xattrs[] t 
     
-		// TODO NEED TO INITIALIZE THE XATTRS VALUES WHEN WE CREATE A NEW XATTR, SEE END OF GIANT PIAZZA POST ON LINE 770
     		//xcb->xattrs[i].name = (char*) malloc(name_size * sizeof(char));
     		//xcb->xattrs[CORRECT POINTER ARITHMETIC FROM PIAZA POST].name = CURRENT POINTER INTO GIANT MEMORY BLOCK
         
-    ((dxattr_t*)xattr_ptr)->name_size = name_size;
+    	((dxattr_t*)xattr_ptr)->name_size = name_size;
 	memcpy(((dxattr_t*)xattr_ptr)->name, name, name_size);
 	((dxattr_t*)xattr_ptr)->value_offset = xcb->size;
-    //printf("[DEBUG-SET]((dxattr_t*)xattr_ptr)->value_offset = %d\n", ((dxattr_t*)xattr_ptr)->value_offset);
+    	//printf("[DEBUG-SET]((dxattr_t*)xattr_ptr)->value_offset = %d\n", ((dxattr_t*)xattr_ptr)->value_offset);
 
-    unsigned int current_write_offset = ((dxattr_t*)xattr_ptr)->value_offset;
+    	unsigned int current_write_offset = ((dxattr_t*)xattr_ptr)->value_offset;
 	unsigned int total = 0;
 	while ( total < value_size ) {   // more to write
     	// int index = ((dxattr_t*)xattr_ptr)->value_offset / (FS_BLOCKSIZE - sizeof(dblock_t));
@@ -736,7 +736,8 @@ int diskGetAttr( unsigned int attr_block, char *name, char *value,
 	dblk = (dblock_t *)disk2addr( fs->base, (block2offset( attr_block )));
 	xcb = (xcb_t *)&dblk->data;
 	// TODO In for loop, need to compare name with dxattr->name and name_size with dxattr->name_size
-    char * xattr_ptr = (char *) (xcb->xattrs);
+    	char * xattr_ptr = (char *) (xcb->xattrs);
+	xcb->no_xattrs = 0;
 	for ( i = 0; i < xcb->no_xattrs; i++ )
 	{
 		if (((dxattr_t*)xattr_ptr)->name != NULL)
@@ -744,27 +745,27 @@ int diskGetAttr( unsigned int attr_block, char *name, char *value,
 			char * nameToCompare = (char*) malloc(name_size * sizeof(char));
 			memcpy(nameToCompare, ((dxattr_t*)xattr_ptr)->name, name_size);
 			unsigned int total = 0;
-            if (strcmp(nameToCompare, name) == 0)
+            		if (strcmp(nameToCompare, name) == 0)
 			{
-                //printf("[DEBUG] FOUND THE ATTRIBUTE WITH NAME %s\n", name);
-                //printf("[DEBUG]((dxattr_t*)xattr_ptr)->value_offset = %d\n", ((dxattr_t*)xattr_ptr)->value_offset);
-                if (existsp == 1)
-        		{       
-            			return 1;
-        		}
+                		//printf("[DEBUG] FOUND THE ATTRIBUTE WITH NAME %s\n", name);
+                		//printf("[DEBUG]((dxattr_t*)xattr_ptr)->value_offset = %d\n", ((dxattr_t*)xattr_ptr)->value_offset);
+                		if (existsp == 1)
+        			{       
+            				return 1;
+        			}
 				unsigned int current_read_offset = ((dxattr_t*)xattr_ptr)->value_offset;
-                int num_bytes_to_read = min(size, ((dxattr_t*)xattr_ptr)->value_size);
-                //printf("[DEBUG]NUM BYTES TO READ = %d\n", num_bytes_to_read);
+                		int num_bytes_to_read = min(size, ((dxattr_t*)xattr_ptr)->value_size);
+                		//printf("[DEBUG]NUM BYTES TO READ = %d\n", num_bytes_to_read);
 				while ( total < num_bytes_to_read ) {   // more to write
 		        	// int index = ((dxattr_t*)xattr_ptr)->value_offset / (FS_BLOCKSIZE - sizeof(dblock_t));
-                    //printf("[DEBUG]xcb->size() = %d\n", xcb->size);                    
-                    // TODO                    
-                    //int index = xcb->size / (FS_BLOCKSIZE - sizeof(dblock_t));
-                    int index = current_read_offset / (FS_BLOCKSIZE - sizeof(dblock_t));                    		        	
-                    unsigned int block = xcb->value_blocks[index];
+                    		//printf("[DEBUG]xcb->size() = %d\n", xcb->size);                    
+                    		// TODO                    
+                    		//int index = xcb->size / (FS_BLOCKSIZE - sizeof(dblock_t));
+                    		int index = current_read_offset / (FS_BLOCKSIZE - sizeof(dblock_t));                    		        	
+                    		unsigned int block = xcb->value_blocks[index];
 		        	unsigned int bytes_read;
-                    //printf("[DEBUG]index = %d\n", index);
-                    //printf("[DEBUG]block = %d\n", block);
+                    		//printf("[DEBUG]index = %d\n", index);
+                    		//printf("[DEBUG]block = %d\n", block);
 
 		        	// if block has not been brought into memory, copy it 
 		        	if ( block == BLK_INVALID ) {		                
