@@ -577,7 +577,7 @@ int diskSetAttr( unsigned int attr_block, char *name, char *value,
                 unsigned int current_write_offset = ((dxattr_t*)xattr_ptr)->value_offset;
 				while ( total < value_size ) {   // more to write
 		        	// int index = ((dxattr_t*)xattr_ptr)->value_offset / (FS_BLOCKSIZE - sizeof(dblock_t));
-                    int index = xcb->size / (FS_BLOCKSIZE - sizeof(dblock_t));
+                    int index = current_write_offset / (FS_BLOCKSIZE - sizeof(dblock_t));
 		        	unsigned int block = xcb->value_blocks[index];
 		        	unsigned int block_bytes;
 
@@ -588,6 +588,8 @@ int diskSetAttr( unsigned int attr_block, char *name, char *value,
                             errorMessage("diskSetAttr: Could not get block from the disk");
 				            return -1;
                         }
+                        // TODO THIS MAY BE INVALID
+                        xcb->value_blocks[index] = block;
 		        	}
 
 		        	if ( index >= XATTR_BLOCKS ) {
@@ -636,11 +638,13 @@ int diskSetAttr( unsigned int attr_block, char *name, char *value,
     ((dxattr_t*)xattr_ptr)->name_size = name_size;
 	memcpy(((dxattr_t*)xattr_ptr)->name, name, name_size);
 	((dxattr_t*)xattr_ptr)->value_offset = xcb->size;
+    //printf("[DEBUG-SET]((dxattr_t*)xattr_ptr)->value_offset = %d\n", ((dxattr_t*)xattr_ptr)->value_offset);
+
     unsigned int current_write_offset = ((dxattr_t*)xattr_ptr)->value_offset;
 	unsigned int total = 0;
 	while ( total < value_size ) {   // more to write
     	// int index = ((dxattr_t*)xattr_ptr)->value_offset / (FS_BLOCKSIZE - sizeof(dblock_t));
-        int index = xcb->size / (FS_BLOCKSIZE - sizeof(dblock_t));
+        int index = current_write_offset / (FS_BLOCKSIZE - sizeof(dblock_t));
     	unsigned int block = xcb->value_blocks[index];
     	unsigned int block_bytes;
 
@@ -651,7 +655,11 @@ int diskSetAttr( unsigned int attr_block, char *name, char *value,
                 errorMessage("diskSetAttr: Could not get block from the disk");
 	            return -1;
             }
+            // TODO THIS MAY BE INVALID
+            xcb->value_blocks[index] = block;
     	}
+        //printf("[DEBUG-SET]block = %d\n", block);
+
 
     	if ( index >= XATTR_BLOCKS ) {
         		errorMessage("diskSetAttr: Max size of value file attributes reached");
@@ -738,17 +746,25 @@ int diskGetAttr( unsigned int attr_block, char *name, char *value,
 			unsigned int total = 0;
             if (strcmp(nameToCompare, name) == 0)
 			{
+                //printf("[DEBUG] FOUND THE ATTRIBUTE WITH NAME %s\n", name);
+                //printf("[DEBUG]((dxattr_t*)xattr_ptr)->value_offset = %d\n", ((dxattr_t*)xattr_ptr)->value_offset);
                 if (existsp == 1)
         		{       
             			return 1;
         		}
 				unsigned int current_read_offset = ((dxattr_t*)xattr_ptr)->value_offset;
                 int num_bytes_to_read = min(size, ((dxattr_t*)xattr_ptr)->value_size);
+                //printf("[DEBUG]NUM BYTES TO READ = %d\n", num_bytes_to_read);
 				while ( total < num_bytes_to_read ) {   // more to write
 		        	// int index = ((dxattr_t*)xattr_ptr)->value_offset / (FS_BLOCKSIZE - sizeof(dblock_t));
-                    int index = xcb->size / (FS_BLOCKSIZE - sizeof(dblock_t));
-		        	unsigned int block = xcb->value_blocks[index];
+                    //printf("[DEBUG]xcb->size() = %d\n", xcb->size);                    
+                    // TODO                    
+                    //int index = xcb->size / (FS_BLOCKSIZE - sizeof(dblock_t));
+                    int index = current_read_offset / (FS_BLOCKSIZE - sizeof(dblock_t));                    		        	
+                    unsigned int block = xcb->value_blocks[index];
 		        	unsigned int bytes_read;
+                    //printf("[DEBUG]index = %d\n", index);
+                    //printf("[DEBUG]block = %d\n", block);
 
 		        	// if block has not been brought into memory, copy it 
 		        	if ( block == BLK_INVALID ) {		                
@@ -757,7 +773,10 @@ int diskGetAttr( unsigned int attr_block, char *name, char *value,
                             errorMessage("diskSetAttr: Could not get block from the disk");
 				            return -1;
                         }
+                        // TODO THIS MAY BE INVALID
+                        xcb->value_blocks[index] = block;
 		        	}
+                    //printf("[DEBUG]block = %d\n", block);
 
 		        	if ( index >= XATTR_BLOCKS ) {
 		            		errorMessage("diskSetAttr: Max size of value file attributes reached");
