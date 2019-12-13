@@ -556,9 +556,7 @@ int diskSetAttr( unsigned int attr_block, char *name, char *value,
 		 unsigned int name_size, unsigned int value_size )
 {
 	/* IMPLEMENT THIS */
-	
-	/* IMPLEMENT THIS */
-	
+
 	dblock_t *dblk;
 	xcb_t *xcb;
 	int i;
@@ -621,9 +619,9 @@ int diskSetAttr( unsigned int attr_block, char *name, char *value,
 		        }
                 ((dxattr_t*)xattr_ptr)->value_size = value_size;
         		
+		        // Successfully set already-existing attribute
+		        return 0;
         	}
-		    // Successfully set already-existing attribute
-		    return 0;
 		}
         xattr_ptr += sizeof(dxattr_t) + ((dxattr_t*)xattr_ptr)->name_size;
             
@@ -727,7 +725,7 @@ int diskGetAttr( unsigned int attr_block, char *name, char *value,
 	dblock_t *dblk;
 	xcb_t *xcb;
 	int i;
-    	dblk = (dblock_t *)disk2addr( fs->base, (block2offset( attr_block )));
+	dblk = (dblock_t *)disk2addr( fs->base, (block2offset( attr_block )));
 	xcb = (xcb_t *)&dblk->data;
 	// TODO In for loop, need to compare name with dxattr->name and name_size with dxattr->name_size
     char * xattr_ptr = (char *) (xcb->xattrs);
@@ -781,12 +779,11 @@ int diskGetAttr( unsigned int attr_block, char *name, char *value,
 		        	current_read_offset += bytes_read;
 		        	value += bytes_read;
 				}
+	            // Successfully set already-existing attribute
+	            return total;
         	}
-		    // Successfully set already-existing attribute
-		    return total;
 		}
         xattr_ptr += sizeof(dxattr_t) + ((dxattr_t*)xattr_ptr)->name_size;
-            
 	}
 	return -1;
 }
