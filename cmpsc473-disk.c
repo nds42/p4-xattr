@@ -564,7 +564,6 @@ int diskSetAttr( unsigned int attr_block, char *name, char *value,
     	xcb = (xcb_t *)&dblk->data;
 	// set xcb->no_xattrs to 0
     	char * xattr_ptr = (char *) (xcb->xattrs);
-	xcb->no_xattrs = 0;
 	for ( i = 0; i < xcb->no_xattrs; i++ )
 	{
 		if (((dxattr_t*)xattr_ptr)->name != NULL)
@@ -737,7 +736,6 @@ int diskGetAttr( unsigned int attr_block, char *name, char *value,
 	xcb = (xcb_t *)&dblk->data;
 	// TODO In for loop, need to compare name with dxattr->name and name_size with dxattr->name_size
     	char * xattr_ptr = (char *) (xcb->xattrs);
-	xcb->no_xattrs = 0;
 	for ( i = 0; i < xcb->no_xattrs; i++ )
 	{
 		if (((dxattr_t*)xattr_ptr)->name != NULL)
