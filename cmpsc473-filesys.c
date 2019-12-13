@@ -645,6 +645,15 @@ int fileRead( unsigned int fd, char *buf, unsigned int bytes )
 
 		/* update the total written and the file offset as well */
 		total += block_bytes; 
+
+		// TODO
+		// Why would we increment the file's fstat's offset every time? Wouldn't that destroy the true offset of where the file starts?
+		// Shouldn't we keep some local copy of the original offset and increment that local copy? 
+		// TODO Do we modify the offset every time because the filesystem is log-based? It would sort of make sense for writing, because
+		//      in a log-based filesystem, the offset (starting point) of a file changes when you write it again. However, reading does
+		// 	not modify the file's location in the system, so why do we modify the fstat-> offset here during reading?
+		// ANSWER: fstat is an in-memory data structure, so it does not record any permanent changes. fcb on the other hand points to the 
+		// 	files data blocks.
 		fstat->offset += block_bytes;
 		buf += block_bytes;
 	}
@@ -801,8 +810,9 @@ int fileSetAttr( unsigned int fd, char *name, char *value, unsigned int name_siz
     //{
     int attr_found = diskGetAttr(attr_block, name, NULL, name_size, -1, 1);
     if ( attr_found == 1 && flags == XATTR_CREATE)
-    {
-        errorMessage("fileSetAttr: (Flags incorrect) Tried to replace attribute when called with flag XATTR_CREATE");
+    {   
+        printf("fileSetAttr: (Flags incorrect) Tried to replace attribute %s when called with flag XATTR_CREATE", name);
+        errorMessage("fileSetAttr: (Flags incorrect) Tried to replace attribute %s when called with flag XATTR_CREATE");
 	    return -1;
     }
     else if ( attr_found == -1 && flags == XATTR_REPLACE)
