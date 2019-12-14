@@ -24,14 +24,14 @@ setxattr: succeeded
 setxattr: fd: 2; attr: article.title; value: Innovations in Linux Management; flags: 0x1
 fileSetAttr: (Flags incorrect) Tried to replace attribute article.title when called with flag XATTR_CREATEsetxattr: failed to set attribute name article.title to Innovations in Linux Management with flags 1 for fd 2
 setxattr: succeeded
-getxattr: fd: 0; attr: article.author; buf: 0x8dddad8, name_size: 14; value_size: 50
+getxattr: fd: 0; attr: article.author; buf: 0x8472ad8, name_size: 14; value_size: 50
 article.author=
-getxattr: fd: 2; attr: article.author; buf: 0x8dddad8, name_size: 14; value_size: 50
-article.author=
-getxattr: fd: 1; attr: article.title; buf: 0x8dddad8, name_size: 13; value_size: 50
-article.title=
-getxattr: fd: 2; attr: article.title; buf: 0x8dddad8, name_size: 13; value_size: 50
-article.title=
+getxattr: fd: 2; attr: article.author; buf: 0x8472ad8, name_size: 14; value_size: 50
+article.author=Wkhdasgfkhf Yksdjfhgaskjdfhg
+getxattr: fd: 1; attr: article.title; buf: 0x8472ad8, name_size: 13; value_size: 50
+article.title=Innovations in Linux Management
+getxattr: fd: 2; attr: article.title; buf: 0x8472ad8, name_size: 13; value_size: 50
+article.title=Innovations in Window Management
 close: 0
 close: 1
 close: 2

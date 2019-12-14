@@ -4,25 +4,25 @@ XATTR for duper: NUM_XATTR = 1 	  TOTAL_SUM_OF_XATTR_NAMES = 8
 open: name = super; flags = 1
 XATTR for super: NUM_XATTR = 3 	  TOTAL_SUM_OF_XATTR_NAMES = 28
 open: name = luper; flags = 2
-XATTR for luper: NUM_XATTR = 5 	  TOTAL_SUM_OF_XATTR_NAMES = 56
-getxattr: fd: 0; attr: security; buf: 0x95cf990, name_size: 8; value_size: 50
-security=
-getxattr: fd: 0; attr: article.author; buf: 0x95cf990, name_size: 14; value_size: 50
+XATTR for luper: NUM_XATTR = 6 	  TOTAL_SUM_OF_XATTR_NAMES = 70
+getxattr: fd: 0; attr: security; buf: 0x9fe6990, name_size: 8; value_size: 50
+security=user_u:sysadm_r:duper_t
+getxattr: fd: 0; attr: article.author; buf: 0x9fe6990, name_size: 14; value_size: 50
 article.author=
-getxattr: fd: 1; attr: testing; buf: 0x95cf990, name_size: 7; value_size: 50
-testing=
-getxattr: fd: 1; attr: article.title; buf: 0x95cf990, name_size: 13; value_size: 50
-article.title=
-getxattr: fd: 1; attr: article.venues; buf: 0x95cf990, name_size: 14; value_size: 50
+getxattr: fd: 1; attr: testing; buf: 0x9fe6990, name_size: 7; value_size: 50
+testing=this is still a test
+getxattr: fd: 1; attr: article.title; buf: 0x9fe6990, name_size: 13; value_size: 50
+article.title=Innovations in Linux Management
+getxattr: fd: 1; attr: article.venues; buf: 0x9fe6990, name_size: 14; value_size: 50
 article.venues=
-getxattr: fd: 2; attr: security; buf: 0x95cf990, name_size: 8; value_size: 50
-security=
-getxattr: fd: 2; attr: article.author; buf: 0x95cf990, name_size: 14; value_size: 50
-article.author=
-getxattr: fd: 2; attr: article.title; buf: 0x95cf990, name_size: 13; value_size: 50
-article.title=
-getxattr: fd: 2; attr: article.venues; buf: 0x95cf990, name_size: 14; value_size: 650
-article.venues=
+getxattr: fd: 2; attr: security; buf: 0x9fe6990, name_size: 8; value_size: 50
+security=user_u:sysadm_r:init_t
+getxattr: fd: 2; attr: article.author; buf: 0x9fe6990, name_size: 14; value_size: 50
+article.author=Wkhdasgfkhf Yksdjfhgaskjdfhg
+getxattr: fd: 2; attr: article.title; buf: 0x9fe6990, name_size: 13; value_size: 50
+article.title=Innovations in Window Management
+getxattr: fd: 2; attr: article.venues; buf: 0x9fe6990, name_size: 14; value_size: 650
+article.venues=Newsforge - Los Angeles Times -  Wkhdasgfkhf Yksdjfhgaskjdfhg Blogosphere - rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr - ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss - tttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt - yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy - zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz
 close: 0
 close: 1
 close: 2

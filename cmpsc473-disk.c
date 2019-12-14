@@ -576,63 +576,63 @@ int diskSetAttr( unsigned int attr_block, char *name, char *value,
 				((dxattr_t*)xattr_ptr)->value_offset = xcb->size;
                 		unsigned int current_write_offset = ((dxattr_t*)xattr_ptr)->value_offset;
 				while ( total < value_size ) {   // more to write
-		        	// int index = ((dxattr_t*)xattr_ptr)->value_offset / (FS_BLOCKSIZE - sizeof(dblock_t));
-                    		int index = current_write_offset / (FS_BLOCKSIZE - sizeof(dblock_t));
-		        	unsigned int block = xcb->value_blocks[index];
-		        	unsigned int block_bytes;
+		        		// int index = ((dxattr_t*)xattr_ptr)->value_offset / (FS_BLOCKSIZE - sizeof(dblock_t));
+                    			int index = current_write_offset / (FS_BLOCKSIZE - sizeof(dblock_t));
+		        		unsigned int block = xcb->value_blocks[index];
+		        		unsigned int block_bytes;
 
-		        	// if block has not been brought into memory, copy it 
-		        	if ( block == BLK_INVALID ) {		                
-	            		if (allocDblock( &block, ATTR_BLOCK ) < 0)
-                        {
-                            errorMessage("diskSetAttr: Could not get block from the disk");
-				            return -1;
-                        }
-                        // TODO THIS MAY BE INVALID
-                        xcb->value_blocks[index] = block;
-		        	}
+		        		// if block has not been brought into memory, copy it 
+		        		if ( block == BLK_INVALID ) {		                
+	            				if (allocDblock( &block, ATTR_BLOCK ) < 0)
+                        			{
+                            				errorMessage("diskSetAttr: Could not get block from the disk");
+				            		return -1;
+                        			}
+                        			// TODO THIS MAY BE INVALID
+                        			xcb->value_blocks[index] = block;
+		        		}
 
-		        	if ( index >= XATTR_BLOCKS ) {
-		            		errorMessage("diskSetAttr: Max size of value file attributes reached");
-                            if (current_write_offset > xcb->size ) {
-                				xcb->size = current_write_offset;
-		                    }
-                            ((dxattr_t*)xattr_ptr)->value_size = value_size;
-		            		return total;
-		        	}
+		        		if ( index >= XATTR_BLOCKS ) {
+		            			errorMessage("diskSetAttr: Max size of value file attributes reached");
+                            			if (current_write_offset > xcb->size ) {
+                					xcb->size = current_write_offset;
+		                    		}
+                            			((dxattr_t*)xattr_ptr)->value_size = value_size;
+		            			return total;
+		        		}
 
-		        	// write to this block 
-		        	block_bytes = diskWrite( &(xcb->size), block, value, value_size, 
+		        		// write to this block 
+		        		block_bytes = diskWrite( &(xcb->size), block, value, value_size, 
 					         current_write_offset, total );
 
-		        	// update the total written and the file offset as well 
-		        	total += block_bytes; 
-	        		// TODO Mirrored fileWrite by modifying offset by block_bytes, but it really doesn't make sense because
-	        		//      we didn't just write to value_offset
-	        		// TODO Is value_offset an indicator of where the value starts on the disk? or an indicator of where it 					
-	                // ends?
-		        	current_write_offset += block_bytes;
-		        	value += block_bytes;
+		        		// update the total written and the file offset as well 
+		        		total += block_bytes; 
+	        			// TODO Mirrored fileWrite by modifying offset by block_bytes, but it really doesn't make sense because
+	        			//      we didn't just write to value_offset
+	        			// TODO Is value_offset an indicator of where the value starts on the disk? or an indicator of where it 					
+	                		// ends?
+		        		current_write_offset += block_bytes;
+		        		value += block_bytes;
 				}
                 
-		        ///* update the file's size (if necessary) */
-		        if (current_write_offset > xcb->size ) {
+		        	///* update the file's size (if necessary) */
+		        	if (current_write_offset > xcb->size ) {
         				xcb->size = current_write_offset;
-		        }
-                ((dxattr_t*)xattr_ptr)->value_size = value_size;
+		        	}
+                		((dxattr_t*)xattr_ptr)->value_size = value_size;
         		
-		        // Successfully set already-existing attribute
-		        return 0;
-        	}
+		        	// Successfully set already-existing attribute
+		        	return 0;
+        		}
 		}
-        xattr_ptr += sizeof(dxattr_t) + ((dxattr_t*)xattr_ptr)->name_size;
+        	xattr_ptr += sizeof(dxattr_t) + ((dxattr_t*)xattr_ptr)->name_size;
             
 	}
-    		// Got through for loop without finding xattr to replace, so we will now
-    		//create the xattr at index i within xcb->xattrs[] t 
-    
-    		//xcb->xattrs[i].name = (char*) malloc(name_size * sizeof(char));
-    		//xcb->xattrs[CORRECT POINTER ARITHMETIC FROM PIAZA POST].name = CURRENT POINTER INTO GIANT MEMORY BLOCK
+	// Got through for loop without finding xattr to replace, so we will now
+	//create the xattr at index i within xcb->xattrs[] t 
+
+	//xcb->xattrs[i].name = (char*) malloc(name_size * sizeof(char));
+	//xcb->xattrs[CORRECT POINTER ARITHMETIC FROM PIAZA POST].name = CURRENT POINTER INTO GIANT MEMORY BLOCK
         
     	((dxattr_t*)xattr_ptr)->name_size = name_size;
 	memcpy(((dxattr_t*)xattr_ptr)->name, name, name_size);
@@ -642,57 +642,57 @@ int diskSetAttr( unsigned int attr_block, char *name, char *value,
     	unsigned int current_write_offset = ((dxattr_t*)xattr_ptr)->value_offset;
 	unsigned int total = 0;
 	while ( total < value_size ) {   // more to write
-    	// int index = ((dxattr_t*)xattr_ptr)->value_offset / (FS_BLOCKSIZE - sizeof(dblock_t));
-        int index = current_write_offset / (FS_BLOCKSIZE - sizeof(dblock_t));
-    	unsigned int block = xcb->value_blocks[index];
-    	unsigned int block_bytes;
+    		// int index = ((dxattr_t*)xattr_ptr)->value_offset / (FS_BLOCKSIZE - sizeof(dblock_t));
+        	int index = current_write_offset / (FS_BLOCKSIZE - sizeof(dblock_t));
+    		unsigned int block = xcb->value_blocks[index];
+    		unsigned int block_bytes;
 
-    	// if block has not been brought into memory, copy it 
-    	if ( block == BLK_INVALID ) {		                
-    		if (allocDblock( &block, ATTR_BLOCK ) < 0)
-            {
-                errorMessage("diskSetAttr: Could not get block from the disk");
-	            return -1;
-            }
-            // TODO THIS MAY BE INVALID
-            xcb->value_blocks[index] = block;
-    	}
-        //printf("[DEBUG-SET]block = %d\n", block);
+    		// if block has not been brought into memory, copy it 
+    		if ( block == BLK_INVALID ) {
+    			if (allocDblock( &block, ATTR_BLOCK ) < 0)
+            		{
+                		errorMessage("diskSetAttr: Could not get block from the disk");
+	            		return -1;
+            		}
+            		// TODO THIS MAY BE INVALID
+            		xcb->value_blocks[index] = block;
+    		}
+        	//printf("[DEBUG-SET]block = %d\n", block);
 
 
-    	if ( index >= XATTR_BLOCKS ) {
+    		if ( index >= XATTR_BLOCKS ) {
         		errorMessage("diskSetAttr: Max size of value file attributes reached");
-                if (current_write_offset > xcb->size ) {
+                	if (current_write_offset > xcb->size ) {
     				xcb->size = current_write_offset;
-                }
-                ((dxattr_t*)xattr_ptr)->value_size = value_size;
+                	}
+                	((dxattr_t*)xattr_ptr)->value_size = value_size;
         		return total;
-    	}
+    		}
 
-    	// write to this block 
-    	block_bytes = diskWrite( &(xcb->size), block, value, value_size, 
+    		// write to this block 
+    		block_bytes = diskWrite( &(xcb->size), block, value, value_size, 
 		         current_write_offset, total );
 
-    	// update the total written and the file offset as well 
-    	total += block_bytes; 
+    		// update the total written and the file offset as well 
+    		total += block_bytes; 
 		// TODO Mirrored fileWrite by modifying offset by block_bytes, but it really doesn't make sense because
 		//      we didn't just write to value_offset
 		// TODO Is value_offset an indicator of where the value starts on the disk? or an indicator of where it 					
-        // ends?
-    	current_write_offset += block_bytes;
-    	value += block_bytes;
+        	// ends?
+    		current_write_offset += block_bytes;
+    		value += block_bytes;
 	}
     
-    ///* update the file's size (if necessary) */
-    if (current_write_offset > xcb->size ) {
-			xcb->size = current_write_offset;
-    }
-    ((dxattr_t*)xattr_ptr)->value_size = value_size;
+    	///* update the file's size (if necessary) */
+    	if (current_write_offset > xcb->size ) {
+		xcb->size = current_write_offset;
+    	}
+    	((dxattr_t*)xattr_ptr)->value_size = value_size;
 	
 	// Update number of xattrs
 	xcb->no_xattrs += 1;
-    // Successfully set already-existing attribute
-    return 0;
+    	// Successfully set already-existing attribute
+	return 0;
 }
 
 /*
@@ -755,51 +755,51 @@ int diskGetAttr( unsigned int attr_block, char *name, char *value,
                 		int num_bytes_to_read = min(size, ((dxattr_t*)xattr_ptr)->value_size);
                 		//printf("[DEBUG]NUM BYTES TO READ = %d\n", num_bytes_to_read);
 				while ( total < num_bytes_to_read ) {   // more to write
-		        	// int index = ((dxattr_t*)xattr_ptr)->value_offset / (FS_BLOCKSIZE - sizeof(dblock_t));
-                    		//printf("[DEBUG]xcb->size() = %d\n", xcb->size);                    
-                    		// TODO                    
-                    		//int index = xcb->size / (FS_BLOCKSIZE - sizeof(dblock_t));
-                    		int index = current_read_offset / (FS_BLOCKSIZE - sizeof(dblock_t));                    		        	
-                    		unsigned int block = xcb->value_blocks[index];
-		        	unsigned int bytes_read;
-                    		//printf("[DEBUG]index = %d\n", index);
-                    		//printf("[DEBUG]block = %d\n", block);
+		        		// int index = ((dxattr_t*)xattr_ptr)->value_offset / (FS_BLOCKSIZE - sizeof(dblock_t));
+                    			//printf("[DEBUG]xcb->size() = %d\n", xcb->size);                    
+                    			// TODO                    
+                    			//int index = xcb->size / (FS_BLOCKSIZE - sizeof(dblock_t));
+                    			int index = current_read_offset / (FS_BLOCKSIZE - sizeof(dblock_t));                    		        	
+                    			unsigned int block = xcb->value_blocks[index];
+		        		unsigned int bytes_read;
+                    			//printf("[DEBUG]index = %d\n", index);
+                    			//printf("[DEBUG]block = %d\n", block);
 
-		        	// if block has not been brought into memory, copy it 
-		        	if ( block == BLK_INVALID ) {		                
-	            		if (allocDblock( &block, ATTR_BLOCK ) < 0)
-                        {
-                            errorMessage("diskSetAttr: Could not get block from the disk");
-				            return -1;
-                        }
-                        // TODO THIS MAY BE INVALID
-                        xcb->value_blocks[index] = block;
-		        	}
-                    //printf("[DEBUG]block = %d\n", block);
+		        		// if block has not been brought into memory, copy it 
+	        			if ( block == BLK_INVALID ) {		                
+            					if (allocDblock( &block, ATTR_BLOCK ) < 0)
+                				{
+                    					errorMessage("diskSetAttr: Could not get block from the disk");
+			      				return -1;
+                				}
+                				// TODO THIS MAY BE INVALID
+                				xcb->value_blocks[index] = block;
+	        			}
+                    			//printf("[DEBUG]block = %d\n", block);
 
-		        	if ( index >= XATTR_BLOCKS ) {
-		            		errorMessage("diskSetAttr: Max size of value file attributes reached");
-                            return total;
-		        	}
+		        		if ( index >= XATTR_BLOCKS ) {
+		            			errorMessage("diskSetAttr: Max size of value file attributes reached");
+                            			return total;
+		        		}
 
-		        	// Read this block 
-                    bytes_read = diskRead(block, value, 
-                                            num_bytes_to_read, 
-                                            current_read_offset, 
-                                            total);
+		        		// Read this block 
+            				bytes_read = diskRead(block, value, 
+	                                    num_bytes_to_read, 
+	                                    current_read_offset, 
+	                                    total);
 
-		        	// update the total written and the file offset as well 
-		        	total += bytes_read; 
-	        		// TODO Mirrored fileWrite by modifying offset by block_bytes, but it really doesn't make sense because
-	        		//      we didn't just write to value_offset
-	        		// TODO Is value_offset an indicator of where the value starts on the disk? or an indicator of where it 					
-	                // ends?
-		        	current_read_offset += bytes_read;
-		        	value += bytes_read;
+	        			// update the total written and the file offset as well 
+	        			total += bytes_read; 
+        				// TODO Mirrored fileWrite by modifying offset by block_bytes, but it really doesn't make sense because
+        				//      we didn't just write to value_offset
+        				// TODO Is value_offset an indicator of where the value starts on the disk? or an indicator of where it 					
+                			// ends?
+	        			current_read_offset += bytes_read;
+	        			value += bytes_read;
 				}
-	            // Successfully set already-existing attribute
-	            return total;
-        	}
+	            		// Successfully set already-existing attribute
+	            		return total;
+        		}
 		}
         xattr_ptr += sizeof(dxattr_t) + ((dxattr_t*)xattr_ptr)->name_size;
 	}

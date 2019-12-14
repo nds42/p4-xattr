@@ -3,17 +3,17 @@ open: name = luper; flags = 2
 XATTR for luper: NUM_XATTR = 0 	  TOTAL_SUM_OF_XATTR_NAMES = 0
 setxattr: fd: 0; attr: testing; value: basictestvalue; flags: 0x1
 setxattr: succeeded
-getxattr: fd: 0; attr: testing; buf: 0x8349890, name_size: 7; value_size: 30
-testing=
+getxattr: fd: 0; attr: testing; buf: 0x83fc890, name_size: 7; value_size: 30
+testing=basictestvalue
 setxattr: fd: 0; attr: article.title; value: Innovations in Window Management; flags: 0x1
 setxattr: succeeded
 setxattr: fd: 0; attr: article.author; value: Wkhdasgfkhf Yksdjfhgaskjdfhg; flags: 0x1
 setxattr: succeeded
 setxattr: fd: 0; attr: article.venues; value: Newsforge - Los Angeles Times -  Wkhdasgfkhf Yksdjfhgaskjdfhg Blogosphere - rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr - ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss - tttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt - yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy - zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz; flags: 0x1
 setxattr: succeeded
-getxattr: fd: 0; attr: article.author; buf: 0x83499f8, name_size: 14; value_size: 50
-article.author=
-getxattr: fd: 0; attr: article.venues; buf: 0x8349ac0, name_size: 14; value_size: 650
-article.venues=
+getxattr: fd: 0; attr: article.author; buf: 0x83fc9f8, name_size: 14; value_size: 50
+article.author=Wkhdasgfkhf Yksdjfhgaskjdfhg
+getxattr: fd: 0; attr: article.venues; buf: 0x83fcac0, name_size: 14; value_size: 650
+article.venues=Newsforge - Los Angeles Times -  Wkhdasgfkhf Yksdjfhgaskjdfhg Blogosphere - rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr - ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss - tttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt - yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy - zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz
 close: 0
 ***********  Done *************
